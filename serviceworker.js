@@ -1,6 +1,10 @@
-const CACHE_NAME = "version-1.0.0";
-const urlsToCache = [ '/' ];
-
+const CACHE_NAME = "cache-version-1.0.0";
+const urlsToCache = [
+    '/',
+    '/img/favicon.ico',
+    '/img/logo192.png',
+    '/img/logo512.png',
+];
 const self = this;
 
 
@@ -12,22 +16,6 @@ self.addEventListener('install', event => {
                 return cache.addAll(urlsToCache);
             })
     );
-});
-
-
-// Handle fetch events
-self.addEventListener('fetch', event => {
-    event.respondWith(async function() {
-        try{
-            const res = await fetch(event.request);
-            const cache = await caches.open(CACHE_NAME);
-            cache.put(event.request.url, res.clone());
-            return res;
-        }
-        catch(error){
-            return caches.match(event.request);
-        }
-    }());
 });
 
 
@@ -43,4 +31,20 @@ self.addEventListener('activate', event => {
             })
         })
     );
+});
+
+
+// Handle fetch events
+self.addEventListener('fetch', event => {
+    event.respondWith(async function() {
+        try{
+            const res = await fetch(event.request);
+            const cache = await caches.open(CACHE_NAME);
+            cache.put(event.request.url, res.clone());
+            return res;
+        }
+        catch(error){
+            console.log(error);
+        }
+    }());
 });
