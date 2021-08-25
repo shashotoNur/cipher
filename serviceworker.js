@@ -1,9 +1,6 @@
 const CACHE_NAME = "cache-version-1.0.0";
 const urlsToCache = [
-    '/',
-    '/img/favicon.ico',
-    '/img/logo192.png',
-    '/img/logo512.png',
+    'index.html'
 ];
 const self = this;
 
