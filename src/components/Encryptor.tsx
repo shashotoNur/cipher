@@ -22,7 +22,7 @@ const Encryptor = () =>
 
     return (
       <>
-        <h1> Files Encryption </h1>
+        <h1> Encryptor </h1>
         <br /><hr /><br />
 
         <form onSubmit={ (event) => event.preventDefault() }>

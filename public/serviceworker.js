@@ -1,5 +1,5 @@
 const CACHE_NAME = "version-1.0.0";
-const urlsToCache = [ 'index.html' ];
+const urlsToCache = [ '/' ];
 
 const self = this;
 
@@ -12,6 +12,22 @@ self.addEventListener('install', event => {
                 return cache.addAll(urlsToCache);
             })
     );
+});
+
+
+// Handle fetch events
+self.addEventListener('fetch', event => {
+    event.respondWith(async function() {
+        try{
+            const res = await fetch(event.request);
+            const cache = await caches.open(CACHE_NAME);
+            cache.put(event.request.url, res.clone());
+            return res;
+        }
+        catch(error){
+            return caches.match(event.request);
+        }
+    }());
 });
 
 
