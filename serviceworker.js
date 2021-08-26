@@ -1,12 +1,13 @@
-const CACHE_NAME = "cache-version-1.0.0";
-const urlsToCache = [
-    '/',
-    '/index.html',
-    '/img/favicon.ico',
-    '/img/logo192.png',
-    '/img/logo512.png',
-];
 const self = this;
+
+const CACHE_NAME = "cache-v1";
+const urlsToCache = [
+    '/encryptor/',
+    '/encryptor/index.html',
+    '/encryptor/img/favicon.ico',
+    '/encryptor/img/logo192.png',
+    '/encryptor/img/logo512.png',
+];
 
 
 // Install serviceworker
@@ -38,14 +39,12 @@ self.addEventListener('activate', event => {
 // Handle fetch events
 self.addEventListener('fetch', event => {
     event.respondWith(async function() {
-        try{
+        try {
             const res = await fetch(event.request);
             const cache = await caches.open(CACHE_NAME);
             cache.put(event.request.url, res.clone());
             return res;
         }
-        catch(error){
-            console.log(error);
-        }
+        catch(error) { console.log(error); };
     }());
 });

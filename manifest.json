@@ -19,7 +19,7 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "/encryptor/",
+  "start_url": "https://shashoto-nur.github.io/encryptor/",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#000000"
