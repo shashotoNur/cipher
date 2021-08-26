@@ -1,70 +1,80 @@
 import { saveAs } from 'file-saver';
 import deriveKey from 'utils/deriveKey';
 
-const getFileData = (file: "" | File) =>
+
+// Get the binary file data
+const getFileData = (file: File) =>
 {
     return new Promise((resolve, _reject) =>
     {
         try
         {
             let reader = new FileReader();
-
             reader.readAsArrayBuffer(file as Blob);
             reader.onload = (event) => { event.target && resolve(event.target.result) };
         }
-        catch (err) { console.log(err.message); };
+        catch (err)
+        {
+            console.log(err.message);
+            alert('An error occured! Please try again...');
+        };
     });
 };
 
-const decryptData = async (data: Uint8Array | string, key: CryptoKey | undefined) =>
+// Decrypt the file and get the filename and file data
+const decryptData = async (uint8MergedData: Uint8Array, key: CryptoKey | undefined) =>
 {
-    try {
+    try
+    {
+        // The algorithm to encrypt the file using webcrtpto
         const algorithm = { name: "AES-GCM", iv: new TextEncoder().encode("Initialization Vector") };
 
-        if(typeof data !== 'string') return key && await window.crypto.subtle.decrypt(algorithm, key, data);
+        const decryptedMergedArray = key && await window.crypto.subtle.decrypt(algorithm, key, uint8MergedData);
 
-        const filteredData = data.replace('_', '/');
+        if(decryptedMergedArray) {
+            const uint8MergedArray = new Uint8Array(decryptedMergedArray);
+            const border = uint8MergedArray[0] + 1;
 
-        const decodedBase64Filename = atob(filteredData);
-        const uint8ArrayFilename = new Uint8Array(
-          [...decodedBase64Filename].map(
-            (char) => char.charCodeAt(0)
-          )
-        );
+            const filenameArray = uint8MergedArray.slice(1, border);
+            const fileData = uint8MergedArray.slice(border, uint8MergedArray.length);
+            const filename = new TextDecoder().decode(filenameArray);
 
-        const decryptedName = key && await window.crypto.subtle.decrypt(algorithm, key, uint8ArrayFilename)
-        const originalFilename = new TextDecoder().decode(decryptedName);
-
-        return originalFilename;
+            return { fileData: fileData!, filename: filename! };
+        };
     }
-    catch(err)
+    catch (err)
     {
         console.log(err.message);
-
-        const extension = typeof data === 'string' && /[^.]*$/.exec(data)![0];
-        return `original_name_could_not_be_recovered.${ extension }`;
+        alert('An error occured! Please try again...');
     };
 };
 
-const decryptFile = async (file: "" | File, filename: string, passkey: string) =>
-  {
+
+// Get the encrypted data, decrypt it and save it ints former state
+const decryptFile = async (file: File, passkey: string) =>
+{
     try
     {
-      (async () =>
-        {
-            const key = await deriveKey(passkey);
+        (async () =>
+            {
+                const key = await deriveKey(passkey);
 
-            const fileUint8Array = await getFileData(file);
-            const decryptedFileData = await decryptData(fileUint8Array as Uint8Array, key);
+                const uint8MergedData = await getFileData(file);
+                const decryptedData = await decryptData(uint8MergedData as Uint8Array, key);
 
-            const originalName = await decryptData(filename, key);
-
-            const originalFile = new Blob( [decryptedFileData as BlobPart] );
-            saveAs(originalFile, originalName as string);
-        }
-      )();
+                if(decryptedData) {
+                    const originalFile = new Blob( [decryptedData.fileData as BlobPart] );
+                    saveAs(originalFile, decryptedData.filename as string);
+                };
+            }
+        )();
     }
-    catch (err) { console.log(err.message); };
-  };
+    catch (err)
+    {
+        console.log(err.message);
+        alert('An error occured! Please try again...');
+    };
+};
+
 
 export default decryptFile;

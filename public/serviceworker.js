@@ -1,7 +1,13 @@
-const CACHE_NAME = "version-1.0.0";
-const urlsToCache = [ '/' ];
-
 const self = this;
+
+const CACHE_NAME = "cache-v1";
+const urlsToCache = [
+    '/encryptor/',
+    '/encryptor/index.html',
+    '/encryptor/img/favicon.ico',
+    '/encryptor/img/logo192.png',
+    '/encryptor/img/logo512.png',
+];
 
 
 // Install serviceworker
@@ -12,22 +18,6 @@ self.addEventListener('install', event => {
                 return cache.addAll(urlsToCache);
             })
     );
-});
-
-
-// Handle fetch events
-self.addEventListener('fetch', event => {
-    event.respondWith(async function() {
-        try{
-            const res = await fetch(event.request);
-            const cache = await caches.open(CACHE_NAME);
-            cache.put(event.request.url, res.clone());
-            return res;
-        }
-        catch(error){
-            return caches.match(event.request);
-        }
-    }());
 });
 
 
@@ -43,4 +33,18 @@ self.addEventListener('activate', event => {
             })
         })
     );
+});
+
+
+// Handle fetch events
+self.addEventListener('fetch', event => {
+    event.respondWith(async function() {
+        try {
+            const res = await fetch(event.request);
+            const cache = await caches.open(CACHE_NAME);
+            cache.put(event.request.url, res.clone());
+            return res;
+        }
+        catch(error) { console.log(error); };
+    }());
 });

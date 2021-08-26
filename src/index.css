@@ -1,6 +1,8 @@
+html{ overflow-x: hidden; }
+
 body {
   margin: 0;
-  font-family: sans-serif;
+  font-family: cursive, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #282c34;
@@ -18,10 +20,11 @@ body {
   width: 50%;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 720px) {
   .App {
     font-size: medium;
-    width: 100%;
+    width: 90%;
+    height: 90vh;
   }
 }
 
@@ -69,4 +72,8 @@ input[type=button] {
 input[type=button]:active {
   box-shadow: 0 5px #666;
   transform: translateY(2px);
+}
+
+ol li {
+  text-align: left;
 }

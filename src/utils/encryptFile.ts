@@ -1,7 +1,9 @@
 import { saveAs } from 'file-saver';
 import deriveKey from 'utils/deriveKey';
 
-const fileToByteArray = (file: "" | File) =>
+
+// Get the byte array of the file before encrypting
+const fileToByteArray = (file: File) =>
 {
     return new Promise((resolve, _reject) =>
     {
@@ -21,50 +23,68 @@ const fileToByteArray = (file: "" | File) =>
                 resolve(fileByteArray);
             }
         }
-        catch (err) { console.log(err.message); };
+        catch (err)
+        {
+            console.log(err.message);
+            alert('An error occured! Please try again...');
+        };
     });
 };
 
-const encryptData = async (data: Uint8Array, encrypting: string, key: CryptoKey | undefined) =>
+// Encrypt the merged array of file and filename
+const encryptData = async (fileArray: Uint8Array, filenameArray: Uint8Array, key: CryptoKey | undefined) =>
 {
     try
     {
+        // The algorithm to encrypt the file using webcrtpto
         const algorithm = { name: "AES-GCM", iv: new TextEncoder().encode("Initialization Vector") };
-        
-        const encryptedData = key && await window.crypto.subtle.encrypt( algorithm, key, data );
+      
+        const mergedArray = new Uint8Array([...[filenameArray.length], ...filenameArray, ...fileArray]);
+        const encryptedMergedData = key && await window.crypto.subtle.encrypt( algorithm, key, mergedArray );
+        const uint8MergedData = new Uint8Array(encryptedMergedData as ArrayBufferLike);
 
-        const uint8ArrayData = new Uint8Array(encryptedData as ArrayBufferLike);
+        // Give a unique name to the encrypted file (not important)
+        const encryptedFilename = key && await window.crypto.subtle.encrypt( algorithm, key, filenameArray );
+        const uint8Filename = new Uint8Array(encryptedFilename as ArrayBufferLike);
+        const stringFilename = String.fromCharCode.apply(null, [].slice.call(uint8Filename));
+        const base64Filename = btoa(stringFilename);
 
-        if(encrypting === 'file') return uint8ArrayData;
-        
-        const stringData = String.fromCharCode.apply(null, [].slice.call(uint8ArrayData));
-        const encryptedBase64Data = btoa(stringData);
-
-        return encryptedBase64Data;
+        return { uint8MergedData: uint8MergedData!, base64Filename: base64Filename! };
     }
-    catch (err) { console.log(err.message); };
+    catch (err)
+    {
+        console.log(err.message);
+        alert('An error occured! Please try again...');
+    };
 }
 
-const encryptFile = async (file: "" | File, filename: string, passkey: string) =>
-  {
+
+// Encrypt the provided file along with its name
+const encryptFile = async (file: File, filename: string, passkey: string) =>
+{
     try
     {
-      (async () =>
-        {
-            const key = await deriveKey(passkey);
+        (async () =>
+            {
+                const key = await deriveKey(passkey);
 
-            const fileBytesArray = await fileToByteArray(file);
-            const encryptedFileData = await encryptData(fileBytesArray as Uint8Array, 'file', key);
+                const fileArray = await fileToByteArray(file);
+                const filenameArray = new TextEncoder().encode(filename);
+                const encryptedData = await encryptData(fileArray as Uint8Array, filenameArray, key);
 
-            const encodedFilename = new TextEncoder().encode(filename);
-            const encryptedName = await encryptData(encodedFilename, 'name', key);
-
-            const binFile = new Blob([encryptedFileData as BlobPart], { type: 'application/octet-stream' });
-            saveAs(binFile, `${ encryptedName }`);
-        }
-      )();
+                if(encryptedData)
+                {
+                    const binFile = new Blob([encryptedData.uint8MergedData as BlobPart], { type: 'application/octet-stream' });
+                    saveAs(binFile, `${ encryptedData.base64Filename }`);
+                }
+            }
+        )();
     }
-    catch (err) { console.log(err.message); };
-  };
+    catch (err)
+    {
+        console.log(err.message);
+        alert('An error occured! Please try again...');
+    };
+};
 
 export default encryptFile;

@@ -1,3 +1,5 @@
+
+
 const deriveKey = async (passkey: string) =>
 {
     try
@@ -12,18 +14,27 @@ const deriveKey = async (passkey: string) =>
         const getKey = (passwordKey: CryptoKey) =>
         {
             return window.crypto.subtle.deriveKey(
-                { "name": "PBKDF2", "salt": new TextEncoder().encode('salt'), "iterations": 1000, "hash": 'SHA-256' },
+                {
+                    "name": "PBKDF2", "salt": new TextEncoder().encode('salt'),
+                    "iterations": 1000, "hash": 'SHA-256'
+                },
                 passwordKey,
-                {"name": "AES-GCM", "length": 128},
+                { "name": "AES-GCM", "length": 128 },
                 true,
-                ["encrypt", "decrypt"]
+                [ "encrypt", "decrypt" ]
             );
         };
 
         const key = getKey(passwordKey);
+
         return key;
     }
-    catch (err) { console.log(err.message); };
+    catch (err)
+    {
+        console.log(err.message);
+        alert('An error occured! Please try again...');
+    };
 };
+
 
 export default deriveKey;
