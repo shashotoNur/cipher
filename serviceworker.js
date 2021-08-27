@@ -2,11 +2,11 @@ const self = this;
 
 const CACHE_NAME = "cache-v1";
 const urlsToCache = [
-    '/encryptor/',
-    '/encryptor/index.html',
-    '/encryptor/img/favicon.ico',
-    '/encryptor/img/logo192.png',
-    '/encryptor/img/logo512.png',
+    '/cipher/',
+    '/cipher/index.html',
+    '/cipher/icons/favicon.ico',
+    '/cipher/icons/logo192.png',
+    '/cipher/icons/logo512.png',
 ];
 
 
