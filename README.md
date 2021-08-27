@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Cipher
 
 A react progressive web app written in typescript to encrypt files in the browser.\
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -37,4 +37,4 @@ Copies all the configuration files and the transitive dependencies (webpack, Bab
 
 ### Live Demo
 
-You can view a live demo here as a [Github Page](https://shashoto-nur.github.io/encryptor).
+You can view a live demo here as a [Github Page](https://shashoto-nur.github.io/cipher).

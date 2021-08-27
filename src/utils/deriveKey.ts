@@ -32,7 +32,7 @@ const deriveKey = async (passkey: string) =>
     catch (err)
     {
         console.log(err.message);
-        alert('An error occured! Please try again...');
+        alert('Operation failed! Please try again...');
     };
 };
 

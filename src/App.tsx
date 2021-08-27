@@ -1,12 +1,12 @@
 
-import Encryptor from 'components/Encryptor';
+import Cipher from 'components/Cipher';
 
 
 const App = () => {
 
     return (
       <div className="App">
-        <Encryptor />
+        <Cipher />
       </div>
     );
 

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
+import logo from 'logo.svg';
 import encryptFile from 'utils/encryptFile';
 import decryptFile from 'utils/decryptFile';
 
 
-const Encryptor = () =>
+const Cipher = () =>
   {
     const [file, setFile] = useState<"" | File>('');
     const [filename, setFilename] = useState('Choose A File');
@@ -12,8 +13,10 @@ const Encryptor = () =>
 
     const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     {
-        setFile(event?.target?.files![0] ? event.target.files![0] : '');
-        setFilename(event?.target?.files![0] ? event.target.files![0].name : 'Choose File');
+        if(event?.target?.files![0]) {
+            setFile(event.target.files![0]);
+            setFilename(event.target.files![0].name);
+        };
     };
 
     const onKeyChange = (event: React.ChangeEvent<HTMLInputElement>) => { setPasskey(event.target.value); };
@@ -32,14 +35,22 @@ const Encryptor = () =>
 
     return (
         <>
-            <h1> Encryptor </h1>
-            <br /><hr /><br />
+            <img src={ logo } className='logo' alt="logo" />
+            <h1> Cipher </h1>
+            <div className="division"><hr /></div>
+            <br /><br /><br />
 
             <form onSubmit={ (event) => event.preventDefault() }>
                 <div>
-                    <label htmlFor="file">File: </label>
-                    <input type='file' id="file" name="file" onChange={ onFileChange } />
-                    <br />
+                    <label htmlFor="file" id="file-label">
+                        {
+                            file === ''
+                                ? 'Choose a File'
+                                : `${filename.substring(0, 30) }${ (filename.length > 30) ? '...' : '' }`
+                        }
+                        <input type='file' id="file" name="file" onChange={ onFileChange } />
+                    </label>
+                    <br /><br /><br />
 
                     <label htmlFor="key">Passkey: </label>
                   <input type='text' id="key" name="key" onChange={ onKeyChange } placeholder={ passkey } />
@@ -49,16 +60,16 @@ const Encryptor = () =>
                 <input type='button' value='Decrypt' onClick={ decrypt } />
             </form>
 
-            <br /><br />
+            <div className="instructions">
+                <h2>Instructions:</h2>
+                <ol>
+                    <li>Select a file.</li>
+                    <li>Write any passkey to encrypt/decrypt the file against.</li>
+                    <li>Encrypt or Decrypt your file. It's that easy!</li>
+                </ol>
 
-            <h3>Instructions:</h3>
-            <ol>
-                <li>Select a file.</li>
-                <li>Write any passkey to encrypt/decrypt the file against.</li>
-                <li>Press any of the button to perform the operation you wish to perform.</li>
-            </ol>
-
-            <p>Note: Only the passkey used to encrypt a file can be used to decrypt the same.</p>
+                <p>Note: Only the passkey used to encrypt a file can be used to decrypt the same.</p>
+            </div>
             <br />
 
             No copyrights &#128521;
@@ -67,4 +78,4 @@ const Encryptor = () =>
   };
 
 
-export default Encryptor;
+export default Cipher;

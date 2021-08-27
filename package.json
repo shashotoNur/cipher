@@ -1,6 +1,6 @@
 {
-  "homepage": "http://shashoto-nur.github.io/encryptor",
-  "name": "encryptor",
+  "homepage": "http://shashoto-nur.github.io/cipher",
+  "name": "cipher",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

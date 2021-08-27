@@ -26,7 +26,7 @@ const fileToByteArray = (file: File) =>
         catch (err)
         {
             console.log(err.message);
-            alert('An error occured! Please try again...');
+            alert('Operation failed! Please try again...');
         };
     });
 };
@@ -54,7 +54,7 @@ const encryptData = async (fileArray: Uint8Array, filenameArray: Uint8Array, key
     catch (err)
     {
         console.log(err.message);
-        alert('An error occured! Please try again...');
+        alert('Operation failed! Please try again...');
     };
 }
 
@@ -83,7 +83,7 @@ const encryptFile = async (file: File, filename: string, passkey: string) =>
     catch (err)
     {
         console.log(err.message);
-        alert('An error occured! Please try again...');
+        alert('Operation failed! Please try again...');
     };
 };
 

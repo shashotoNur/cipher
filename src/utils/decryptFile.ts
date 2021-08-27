@@ -16,7 +16,7 @@ const getFileData = (file: File) =>
         catch (err)
         {
             console.log(err.message);
-            alert('An error occured! Please try again...');
+            alert('Operation failed! Please try again...');
         };
     });
 };
@@ -45,7 +45,7 @@ const decryptData = async (uint8MergedData: Uint8Array, key: CryptoKey | undefin
     catch (err)
     {
         console.log(err.message);
-        alert('An error occured! Please try again...');
+        alert('Operation failed! Please try again...');
     };
 };
 
@@ -72,7 +72,7 @@ const decryptFile = async (file: File, passkey: string) =>
     catch (err)
     {
         console.log(err.message);
-        alert('An error occured! Please try again...');
+        alert('Operation failed! Please try again...');
     };
 };
 
