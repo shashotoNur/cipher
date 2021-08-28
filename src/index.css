@@ -31,6 +31,10 @@ body {
     padding: 0 10% 0 10%;
     word-wrap: break-word;
   }
+
+  input {
+    margin-bottom: 15px;
+  }
 }
 
 .App:hover {
@@ -67,6 +71,8 @@ input[type=file] {
 }
 
 input[type=text] {
+  border-radius: 0;
+  padding: 0 0 0 5px;
   width: 40%;
   -webkit-transition: width .35s ease-in-out;
   transition: width .35s ease-in-out;
@@ -74,11 +80,12 @@ input[type=text] {
 
 input[type=text]:focus {
   width: 60%;
+  outline: none;
 }
 
 input[type=button] {
   width: 30%;
-  margin: 5%;
+  margin: 10%;
   padding: 1%;
   border-radius: 36px;
   border: none;
@@ -94,6 +101,12 @@ input[type=button] {
   background: #fff;
   color: #000000;
   cursor: pointer;
+}
+
+#passkey-label {
+  padding: 1.5% 0 1.5% 1.5%;
+  background: #fff;
+  color: #000000;
 }
 
 input[type=button]:active {

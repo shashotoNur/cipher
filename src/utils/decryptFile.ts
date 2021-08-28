@@ -13,9 +13,9 @@ const getFileData = (file: File) =>
             reader.readAsArrayBuffer(file as Blob);
             reader.onload = (event) => { event.target && resolve(event.target.result) };
         }
-        catch (err)
+        catch ({ message })
         {
-            console.log(err.message);
+            console.log(message);
             alert('Operation failed! Please try again...');
         };
     });
@@ -42,15 +42,15 @@ const decryptData = async (uint8MergedData: Uint8Array, key: CryptoKey | undefin
             return { fileData: fileData!, filename: filename! };
         };
     }
-    catch (err)
+    catch ({ message })
     {
-        console.log(err.message);
+        console.log(message);
         alert('Operation failed! Please try again...');
     };
 };
 
 
-// Get the encrypted data, decrypt it and save it ints former state
+// Get the encrypted data, decrypt it and save it in its former state
 const decryptFile = async (file: File, passkey: string) =>
 {
     try
@@ -64,14 +64,14 @@ const decryptFile = async (file: File, passkey: string) =>
 
                 if(decryptedData) {
                     const originalFile = new Blob( [decryptedData.fileData as BlobPart] );
-                    saveAs(originalFile, decryptedData.filename as string);
+                    saveAs(originalFile, decryptedData.filename);
                 };
             }
         )();
     }
-    catch (err)
+    catch ({ message })
     {
-        console.log(err.message);
+        console.log(message);
         alert('Operation failed! Please try again...');
     };
 };

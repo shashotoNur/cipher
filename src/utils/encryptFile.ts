@@ -23,9 +23,9 @@ const fileToByteArray = (file: File) =>
                 resolve(fileByteArray);
             }
         }
-        catch (err)
+        catch ({ message })
         {
-            console.log(err.message);
+            console.log(message);
             alert('Operation failed! Please try again...');
         };
     });
@@ -43,20 +43,17 @@ const encryptData = async (fileArray: Uint8Array, filenameArray: Uint8Array, key
         const encryptedMergedData = key && await window.crypto.subtle.encrypt( algorithm, key, mergedArray );
         const uint8MergedData = new Uint8Array(encryptedMergedData as ArrayBufferLike);
 
-        // Give a unique name to the encrypted file (not important)
-        const encryptedFilename = key && await window.crypto.subtle.encrypt( algorithm, key, filenameArray );
-        const uint8Filename = new Uint8Array(encryptedFilename as ArrayBufferLike);
-        const stringFilename = String.fromCharCode.apply(null, [].slice.call(uint8Filename));
-        const base64Filename = btoa(stringFilename);
+        // Generate a random filename
+        const filename = Math.random().toString(36).substring(2);
 
-        return { uint8MergedData: uint8MergedData!, base64Filename: base64Filename! };
+        return { uint8MergedData: uint8MergedData!, filename: filename! };
     }
-    catch (err)
+    catch ({ message })
     {
-        console.log(err.message);
+        console.log(message);
         alert('Operation failed! Please try again...');
     };
-}
+};
 
 
 // Encrypt the provided file along with its name
@@ -74,17 +71,20 @@ const encryptFile = async (file: File, filename: string, passkey: string) =>
 
                 if(encryptedData)
                 {
-                    const binFile = new Blob([encryptedData.uint8MergedData as BlobPart], { type: 'application/octet-stream' });
-                    saveAs(binFile, `${ encryptedData.base64Filename }`);
-                }
+                    const { uint8MergedData, filename } = encryptedData;
+
+                    const binFile = new Blob([uint8MergedData as BlobPart], { type: 'application/octet-stream' });
+                    saveAs(binFile, filename);
+                };
             }
         )();
     }
-    catch (err)
+    catch ({ message })
     {
-        console.log(err.message);
+        console.log(message);
         alert('Operation failed! Please try again...');
     };
 };
+
 
 export default encryptFile;

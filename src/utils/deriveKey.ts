@@ -29,9 +29,9 @@ const deriveKey = async (passkey: string) =>
 
         return key;
     }
-    catch (err)
+    catch ({ message })
     {
-        console.log(err.message);
+        console.log(message);
         alert('Operation failed! Please try again...');
     };
 };

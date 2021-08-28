@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 
 import logo from 'logo.svg';
@@ -46,14 +47,16 @@ const Cipher = () =>
                         {
                             file === ''
                                 ? 'Choose a File'
-                                : `${filename.substring(0, 30) }${ (filename.length > 30) ? '...' : '' }`
+                                : `${ filename.substring(0, 30) }${ (filename.length > 30) ? '...' : '' }`
                         }
                         <input type='file' id="file" name="file" onChange={ onFileChange } />
                     </label>
                     <br /><br /><br />
 
-                    <label htmlFor="key">Passkey: </label>
-                  <input type='text' id="key" name="key" onChange={ onKeyChange } placeholder={ passkey } />
+                    <label id="passkey-label" htmlFor="key">
+                        Passkey :
+                        <input type='text' id="key" name="key" onChange={ onKeyChange } placeholder={ passkey } />
+                    </label>
                 </div>
 
                 <input type='button' value='Encrypt' onClick={ encrypt } />
@@ -62,6 +65,7 @@ const Cipher = () =>
 
             <div className="instructions">
                 <h2>Instructions:</h2>
+
                 <ol>
                     <li>Select a file.</li>
                     <li>Write any passkey to encrypt/decrypt the file against.</li>
