@@ -39,12 +39,13 @@ self.addEventListener('fetch', event => {
         try {
             const res = await fetch(event.request);
             const cache = await caches.open(CACHE_NAME);
-            try {
-                cache.put(event.request.url, res.clone());
-            }
-            catch(err) { cache.put('/', res.clone()); }
+            cache.put(event.request.url, res.clone());
+
             return res;
         }
-        catch(error) { console.log(error, event.request.url, await caches.open(CACHE_NAME)); };
+        catch(error) {
+            console.log(error, event.request.url);
+            caches.match('index.html')
+        };
     }());
 });
