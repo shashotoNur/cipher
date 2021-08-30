@@ -1,5 +1,4 @@
 const self = this;
-
 const CACHE_NAME = "cache-v1";
 const urlsToCache = [
     '/cipher/',
@@ -20,7 +19,6 @@ self.addEventListener('install', event => {
     );
 });
 
-
 // Activate the serviceworker
 self.addEventListener('activate', event => {
     const cacheWhitelist = [];
@@ -35,7 +33,6 @@ self.addEventListener('activate', event => {
     );
 });
 
-
 // Handle fetch events
 self.addEventListener('fetch', event => {
     event.respondWith(async function() {
@@ -43,8 +40,12 @@ self.addEventListener('fetch', event => {
             const res = await fetch(event.request);
             const cache = await caches.open(CACHE_NAME);
             cache.put(event.request.url, res.clone());
+
             return res;
         }
-        catch(error) { console.log(error); };
+        catch(error) {
+            console.log(error, event.request.url);
+            caches.match('index.html')
+        };
     }());
 });

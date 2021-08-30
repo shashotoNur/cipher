@@ -101,6 +101,7 @@ input[type=button] {
   background: #fff;
   color: #000000;
   cursor: pointer;
+  box-shadow: 2px 4px grey;
 }
 
 #passkey-label {

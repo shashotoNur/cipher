@@ -10,7 +10,7 @@ const Cipher = () =>
   {
     const [file, setFile] = useState<"" | File>('');
     const [filename, setFilename] = useState('Choose A File');
-    const [passkey, setPasskey] = useState('Enter A Passkey');
+    const [passkey, setPasskey] = useState('');
 
     const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     {
@@ -24,13 +24,19 @@ const Cipher = () =>
 
     const encrypt = () =>
     {
-        if(file !== '' && passkey !== 'Enter A Passkey') encryptFile(file, filename, passkey);
+        if(file !== '' && passkey !== '') {
+            encryptFile(file, filename, passkey);
+            setFile(''); setFilename('');
+        }
         else alert('Please provide a file and a passkey in order to encrypt!');
     };
 
     const decrypt = () =>
     {
-        if(file !== '' && passkey !== 'Enter A Passkey') decryptFile(file, passkey);
+        if(file !== '' && passkey !== '') {
+            decryptFile(file, passkey);
+            setFile(''); setFilename('');
+        }
         else alert('Please provide a file and a passkey in order to decrypt!');
     };
 
@@ -41,7 +47,7 @@ const Cipher = () =>
             <div className="division"><hr /></div>
             <br /><br /><br />
 
-            <form onSubmit={ (event) => event.preventDefault() }>
+            <form onSubmit={ event => event.preventDefault() }>
                 <div>
                     <label htmlFor="file" id="file-label">
                         {
@@ -80,6 +86,5 @@ const Cipher = () =>
         </>
     );
   };
-
 
 export default Cipher;

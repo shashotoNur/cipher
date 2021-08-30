@@ -19,6 +19,8 @@
     "build": "react-scripts build",
     "production": "serve -s build",
     "deploy": "react-scripts build && gh-pages -d build",
+    "repo-update": "git add . && git commit -m 'updated' && git push -u origin main",
+    "package-update": "ncu --upgrade && npm install",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
