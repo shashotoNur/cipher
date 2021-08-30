@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/cipher/static/css/main.66b50ae2.chunk.css",
-    "main.js": "/cipher/static/js/main.ffaa881c.chunk.js",
-    "main.js.map": "/cipher/static/js/main.ffaa881c.chunk.js.map",
+    "main.css": "/cipher/static/css/main.066e84e1.chunk.css",
+    "main.js": "/cipher/static/js/main.33910a0d.chunk.js",
+    "main.js.map": "/cipher/static/js/main.33910a0d.chunk.js.map",
     "runtime-main.js": "/cipher/static/js/runtime-main.03bc539e.js",
     "runtime-main.js.map": "/cipher/static/js/runtime-main.03bc539e.js.map",
     "static/js/2.25b38971.chunk.js": "/cipher/static/js/2.25b38971.chunk.js",
@@ -10,14 +10,14 @@
     "static/js/3.ebdddc49.chunk.js": "/cipher/static/js/3.ebdddc49.chunk.js",
     "static/js/3.ebdddc49.chunk.js.map": "/cipher/static/js/3.ebdddc49.chunk.js.map",
     "index.html": "/cipher/index.html",
-    "static/css/main.66b50ae2.chunk.css.map": "/cipher/static/css/main.66b50ae2.chunk.css.map",
+    "static/css/main.066e84e1.chunk.css.map": "/cipher/static/css/main.066e84e1.chunk.css.map",
     "static/js/2.25b38971.chunk.js.LICENSE.txt": "/cipher/static/js/2.25b38971.chunk.js.LICENSE.txt",
     "static/media/logo.6ce24c58.svg": "/cipher/static/media/logo.6ce24c58.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.03bc539e.js",
     "static/js/2.25b38971.chunk.js",
-    "static/css/main.66b50ae2.chunk.css",
-    "static/js/main.ffaa881c.chunk.js"
+    "static/css/main.066e84e1.chunk.css",
+    "static/js/main.33910a0d.chunk.js"
   ]
 }
