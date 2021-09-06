@@ -24,19 +24,13 @@ const Cipher = () =>
 
     const encrypt = () =>
     {
-        if(file !== '' && passkey !== '') {
-            encryptFile(file, filename, passkey);
-            setFile(''); setFilename('');
-        }
+        if(file !== '' && passkey !== '') encryptFile(file, filename, passkey);
         else alert('Please provide a file and a passkey in order to encrypt!');
     };
 
     const decrypt = () =>
     {
-        if(file !== '' && passkey !== '') {
-            decryptFile(file, passkey);
-            setFile(''); setFilename('');
-        }
+        if(file !== '' && passkey !== '') decryptFile(file, passkey);
         else alert('Please provide a file and a passkey in order to decrypt!');
     };
 
