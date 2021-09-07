@@ -1,12 +1,19 @@
 import { createWriteStream } from 'streamsaver';
 import deriveKey from 'utils/deriveKey';
 
+const reader = new FileReader();
+
+// The algorithm to encrypt the file using webcrtpto
+const algorithm = { name: "AES-GCM", iv: new TextEncoder().encode("Initialization Vector") };
+
+// Generate a random filename
+const newName = Math.random().toString(36).substring(2);
+const writableStream = createWriteStream(newName);
+const writer = writableStream.getWriter();
+
 // Get the byte array of the file before encrypting
 const fileToByteArray = (file: File, start: number, end: number) =>
 {
-    const reader = new FileReader();
-    var counter = 0; console.log(++counter); // counter will only be logged once as 1
-
     return new Promise((resolve, _reject) =>
     {
         try
@@ -34,16 +41,14 @@ const fileToByteArray = (file: File, start: number, end: number) =>
 };
 
 // Encrypt the merged array of file and filename
-const encryptData = async (unencryptedArray: Uint8Array, key: CryptoKey) =>
+const encryptData = async (unencryptedChunk: Uint8Array, key: CryptoKey) =>
 {
-    // The algorithm to encrypt the file using webcrtpto
-    const algorithm = { name: "AES-GCM", iv: new TextEncoder().encode("Initialization Vector") };
     try
     {
-        const encryptedMergedData = await window.crypto.subtle.encrypt( algorithm, key, unencryptedArray );
-        const uint8MergedData = new Uint8Array(encryptedMergedData as ArrayBufferLike);
+        const encryptedChunk = await window.crypto.subtle.encrypt(algorithm, key, unencryptedChunk);
+        const uint8ChunkData = new Uint8Array(encryptedChunk as ArrayBufferLike);
 
-        return uint8MergedData;
+        return uint8ChunkData;
     }
     catch ({ message })
     {
@@ -58,35 +63,31 @@ const encryptChunkNSave = async(
     key: CryptoKey, unencryptedArray: Uint8Array, file: File,
     start: number|undefined, end: number|undefined
 ) => {
+    try
+    {
+        // Encrypt chunk data
+        const uint8ChunkData = await encryptData(unencryptedArray as Uint8Array, key);
 
-        try
-        {
-            // Generate a random filename
-            const newName = Math.random().toString(36).substring(2);
-            const fileStream = createWriteStream(newName);
-            const writer = fileStream.getWriter();
-            // Encrypt chunk data
-            const uint8MergedData = await encryptData(unencryptedArray as Uint8Array, key);
+        // Create a writable pipeline to storage
+        writer.write(uint8ChunkData);
 
-            // Create a writable pipeline to storage
-            writer.write(uint8MergedData);
+        const fiftyMB = 50 * 1024 * 1024;
+        if(!start || !end) { start = 0; end = fiftyMB; };
 
-            const fiftyMB = 50 * 1024 * 1024;
-            if(!start || !end) { start = 0; end = fiftyMB; }
-
-            // Repeat if required
-            if(file.size >= end) {
-                start = end; end = end + fiftyMB;
-                const nextChunk = await fileToByteArray(file, start, (file.size > end) ? end : file.size);
-                encryptChunkNSave(key, nextChunk as Uint8Array, file, start, end);
-            }
-            else writer.close();
+        // Repeat if required
+        if(file.size >= end) {
+            const newEnd = end + fiftyMB;
+            start = end; end = (file.size > newEnd) ? newEnd : file.size;
+            const nextChunk = await fileToByteArray(file, start, end);
+            encryptChunkNSave(key, nextChunk as Uint8Array, file, start, end);
         }
-        catch ({ message })
-        {
-            console.log(message);
-            alert('Operation failed! Please try again...');
-        };
+        else writer.close();
+    }
+    catch ({ message })
+    {
+        console.log(message);
+        alert('Operation failed! Please try again...');
+    };
 
 };
 

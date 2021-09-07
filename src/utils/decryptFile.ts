@@ -1,16 +1,21 @@
-import { saveAs } from 'file-saver';
+import { createWriteStream } from 'streamsaver';
 import deriveKey from 'utils/deriveKey';
 
+const reader = new FileReader();
+let writableStream: WritableStream<any>, writer: WritableStreamDefaultWriter<any>;
+
+// The algorithm to encrypt the file using webcrtpto
+const algorithm = { name: "AES-GCM", iv: new TextEncoder().encode("Initialization Vector") };
 
 // Get the binary file data
-const getFileData = (file: File) =>
+const getFileChunk = (file: File, start: number, end: number) =>
 {
     return new Promise((resolve, _reject) =>
     {
         try
         {
-            let reader = new FileReader();
-            reader.readAsArrayBuffer(file as Blob);
+            const chunk = file.slice(start, end);
+            reader.readAsArrayBuffer(chunk);
             reader.onload = (event) => { event.target && resolve(event.target.result) };
         }
         catch ({ message })
@@ -22,24 +27,15 @@ const getFileData = (file: File) =>
 };
 
 // Decrypt the file and get the filename and file data
-const decryptData = async (uint8MergedData: Uint8Array, key: CryptoKey | undefined) =>
+const decryptData = async (encryptedChunk: Uint8Array, key: CryptoKey) =>
 {
     try
     {
-        // The algorithm to encrypt the file using webcrtpto
-        const algorithm = { name: "AES-GCM", iv: new TextEncoder().encode("Initialization Vector") };
+        const decryptedChunk = await window.crypto.subtle.decrypt(algorithm, key, encryptedChunk);
 
-        const decryptedMergedArray = key && await window.crypto.subtle.decrypt(algorithm, key, uint8MergedData);
-
-        if(decryptedMergedArray) {
-            const uint8MergedArray = new Uint8Array(decryptedMergedArray);
-            const border = uint8MergedArray[0] + 1;
-
-            const filenameArray = uint8MergedArray.slice(1, border);
-            const fileData = uint8MergedArray.slice(border, uint8MergedArray.length);
-            const filename = new TextDecoder().decode(filenameArray);
-
-            return { fileData: fileData!, filename: filename! };
+        if(decryptedChunk) {
+            const decryptedUint8Array = new Uint8Array(decryptedChunk);
+            return decryptedUint8Array;
         };
     }
     catch ({ message })
@@ -50,24 +46,63 @@ const decryptData = async (uint8MergedData: Uint8Array, key: CryptoKey | undefin
 };
 
 
-// Get the encrypted data, decrypt it and save it in its former state
+// Encrypt the provided chunk and save it to storage; repeat
+const decryptChunkNSave = async (
+    key: CryptoKey, encryptedChunk: Uint8Array, file: File,
+    start: number, end: number
+) => {
+    try
+    {
+        
+        const decryptedUint8Array = await decryptData(encryptedChunk, key);
+        
+        if(decryptedUint8Array) {
+            if(start === 0) {
+                const border = decryptedUint8Array[0] + 1;
+                
+                const filenameArray = decryptedUint8Array.slice(1, border);
+                const filename = new TextDecoder().decode(filenameArray);
+
+                const fileChunk = decryptedUint8Array.slice(border, decryptedUint8Array.length);
+                
+                writableStream = createWriteStream(filename);
+                writer = writableStream.getWriter();
+
+                // Write data through the pipeline to storage
+                writer.write(fileChunk);
+            }
+            else writer.write(decryptedUint8Array);
+
+            // Repeat if required
+            if(file.size >= end) {
+                const newEnd = end + 50 * 1024 * 1024;
+                start = end; end = (file.size > newEnd) ? newEnd : file.size;
+                const nextChunk = await getFileChunk(file, start, end);
+                decryptChunkNSave(key, nextChunk as Uint8Array, file, start, end);
+            }
+            else writer.close();
+        };
+    }
+    catch ({ message })
+    {
+        console.log(message);
+        alert('Operation failed! Please try again...');
+    };
+};
+
+// Derive key and encrypt first chunk of the file along with its name
 const decryptFile = async (file: File, passkey: string) =>
 {
     try
     {
-        (async () =>
-            {
-                const key = await deriveKey(passkey);
+        const key = await deriveKey(passkey);
 
-                const uint8MergedData = await getFileData(file);
-                const decryptedData = await decryptData(uint8MergedData as Uint8Array, key);
-
-                if(decryptedData) {
-                    const originalFile = new Blob( [decryptedData.fileData as BlobPart] );
-                    saveAs(originalFile, decryptedData.filename);
-                };
-            }
-        )();
+        if(key) {
+            const start = 0, end = 50 * 1024 * 1024;
+            const encryptedChunk = await getFileChunk(file, start, end);
+            decryptChunkNSave(key, encryptedChunk as Uint8Array, file, start, end);
+        }
+        else alert('Key generation failed! Please try again...');
     }
     catch ({ message })
     {
