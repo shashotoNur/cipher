@@ -1,9 +1,7 @@
 
-
 const deriveKey = async (passkey: string) =>
 {
-    try
-    {
+    try {
         // Create a PBKDF2 "key" containing the password
         const passwordKey = await window.crypto.subtle.importKey(
                 "raw", new TextEncoder().encode(passkey),
@@ -13,8 +11,7 @@ const deriveKey = async (passkey: string) =>
         // Derive a key from the password key
         const getKey = (passwordKey: CryptoKey) =>
         {
-            return window.crypto.subtle.deriveKey(
-                {
+            return window.crypto.subtle.deriveKey({
                     "name": "PBKDF2", "salt": new TextEncoder().encode('salt'),
                     "iterations": 1000, "hash": 'SHA-256'
                 },
@@ -26,11 +23,9 @@ const deriveKey = async (passkey: string) =>
         };
 
         const key = getKey(passwordKey);
-
         return key;
     }
-    catch ({ message })
-    {
+    catch ({ message }) {
         console.log(message);
         alert('Operation failed! Please try again...');
     };

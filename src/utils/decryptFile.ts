@@ -4,7 +4,7 @@ import deriveKey from 'utils/deriveKey';
 const reader = new FileReader();
 let writableStream: WritableStream<any>, writer: WritableStreamDefaultWriter<any>;
 
-// The algorithm to encrypt the file using webcrtpto
+// The algorithm to encrypt the file using webcrypto
 const algorithm = { name: "AES-GCM", iv: new TextEncoder().encode("Initialization Vector") };
 
 // Get the binary file data
@@ -15,8 +15,16 @@ const getFileChunk = (file: File, start: number, end: number) =>
         try
         {
             const chunk = file.slice(start, end);
+
             reader.readAsArrayBuffer(chunk);
-            reader.onload = (event) => { event.target && resolve(event.target.result) };
+            reader.onloadend = (event) =>
+            {
+                if(event.target && event.target.result && typeof event.target.result !== 'string')
+                {
+                    const uint8Chunk = new Uint8Array(event.target.result);
+                    resolve(uint8Chunk);
+                };
+            };
         }
         catch ({ message })
         {
@@ -45,15 +53,14 @@ const decryptData = async (encryptedChunk: Uint8Array, key: CryptoKey) =>
     };
 };
 
-
-// Encrypt the provided chunk and save it to storage; repeat
+// Decrypt the provided chunk and save it to storage; repeat
 const decryptChunkNSave = async (
     key: CryptoKey, encryptedChunk: Uint8Array, file: File,
     start: number, end: number
 ) => {
     try
     {
-        
+        console.log(encryptedChunk)
         const decryptedUint8Array = await decryptData(encryptedChunk, key);
         
         if(decryptedUint8Array) {
@@ -73,15 +80,18 @@ const decryptChunkNSave = async (
             }
             else writer.write(decryptedUint8Array);
 
+            const fileSize = file.size+1;
+
             // Repeat if required
-            if(file.size >= end) {
+            if(fileSize > end) {
                 const newEnd = end + 50 * 1024 * 1024;
-                start = end; end = (file.size > newEnd) ? newEnd : file.size;
+                start = end; end = (fileSize > newEnd) ? newEnd : fileSize;
                 const nextChunk = await getFileChunk(file, start, end);
                 decryptChunkNSave(key, nextChunk as Uint8Array, file, start, end);
             }
             else writer.close();
-        };
+        }
+        else alert('Decryption failed! Please try again...');
     }
     catch ({ message })
     {
@@ -90,7 +100,8 @@ const decryptChunkNSave = async (
     };
 };
 
-// Derive key and encrypt first chunk of the file along with its name
+
+// Derive key and decrypt first chunk of the file along with its name
 const decryptFile = async (file: File, passkey: string) =>
 {
     try
@@ -98,7 +109,10 @@ const decryptFile = async (file: File, passkey: string) =>
         const key = await deriveKey(passkey);
 
         if(key) {
-            const start = 0, end = 50 * 1024 * 1024;
+            const fileSize = file.size+1;
+
+            const fiftyMB = 50 * 1024 * 1024;
+            const start = 0, end = (fileSize > fiftyMB) ? fiftyMB : fileSize;
             const encryptedChunk = await getFileChunk(file, start, end);
             decryptChunkNSave(key, encryptedChunk as Uint8Array, file, start, end);
         }

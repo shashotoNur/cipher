@@ -3,7 +3,7 @@ import deriveKey from 'utils/deriveKey';
 
 const reader = new FileReader();
 
-// The algorithm to encrypt the file using webcrtpto
+// The algorithm to encrypt the file using webcrypto
 const algorithm = { name: "AES-GCM", iv: new TextEncoder().encode("Initialization Vector") };
 
 // Generate a random filename
@@ -18,18 +18,17 @@ const fileToByteArray = (file: File, start: number, end: number) =>
     {
         try
         {
-            let fileByteArray: Uint8Array;
             const chunk = file.slice(start, end);
 
             reader.readAsArrayBuffer(chunk);
             reader.onloadend = (event) =>
             {
-                if (event.target && event.target.readyState === FileReader.DONE)
+                if(event.target && event.target.readyState === FileReader.DONE)
                 {
                     const arrayBuffer = event.target.result;
-                    fileByteArray = new Uint8Array(arrayBuffer as ArrayBufferLike);
+                    const fileByteArray = new Uint8Array(arrayBuffer as ArrayBufferLike);
+                    resolve(fileByteArray);
                 };
-                resolve(fileByteArray);
             }
         }
         catch ({ message })
@@ -46,9 +45,9 @@ const encryptData = async (unencryptedChunk: Uint8Array, key: CryptoKey) =>
     try
     {
         const encryptedChunk = await window.crypto.subtle.encrypt(algorithm, key, unencryptedChunk);
-        const uint8ChunkData = new Uint8Array(encryptedChunk as ArrayBufferLike);
+        const encryptedUint8Chunk = new Uint8Array(encryptedChunk as ArrayBufferLike);
 
-        return uint8ChunkData;
+        return encryptedUint8Chunk;
     }
     catch ({ message })
     {
@@ -56,7 +55,6 @@ const encryptData = async (unencryptedChunk: Uint8Array, key: CryptoKey) =>
         alert('Operation failed! Please try again...');
     };
 };
-
 
 // Encrypt the provided chunk and save it to storage; repeat
 const encryptChunkNSave = async(
@@ -66,18 +64,18 @@ const encryptChunkNSave = async(
     try
     {
         // Encrypt chunk data
-        const uint8ChunkData = await encryptData(unencryptedArray as Uint8Array, key);
+        const encryptedUint8Chunk = await encryptData(unencryptedArray as Uint8Array, key);
 
         // Create a writable pipeline to storage
-        writer.write(uint8ChunkData);
+        writer.write(encryptedUint8Chunk);
 
-        const fiftyMB = 50 * 1024 * 1024;
-        if(!start || !end) { start = 0; end = fiftyMB; };
+        const fileSize = file.size+1;
+        if(!end) end = 0;
 
         // Repeat if required
-        if(file.size >= end) {
-            const newEnd = end + fiftyMB;
-            start = end; end = (file.size > newEnd) ? newEnd : file.size;
+        if(fileSize > end) {
+            const newEnd = end + 50 * 1024 * 1024;
+            start = end; end = (fileSize > newEnd) ? newEnd : fileSize;
             const nextChunk = await fileToByteArray(file, start, end);
             encryptChunkNSave(key, nextChunk as Uint8Array, file, start, end);
         }
@@ -90,6 +88,7 @@ const encryptChunkNSave = async(
     };
 
 };
+
 
 // Derive key and encrypt first chunk of the file along with its name
 const encryptFile = async (file: File, filename: string, passkey: string) =>
