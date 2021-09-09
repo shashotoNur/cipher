@@ -1,7 +1,9 @@
 import { createWriteStream } from 'streamsaver';
+
 import deriveKey from 'utils/deriveKey';
 import getFileChunk from 'utils/getFileChunk';
 import getAlgorithm from 'utils/getAlgorithm';
+
 
 // Encrypt the merged array of file and filename
 const encryptData = async (
@@ -11,7 +13,7 @@ const encryptData = async (
     try
     {
         const encryptedChunk = await window.crypto.subtle.encrypt(algorithm, key, unencryptedChunk);
-        const encryptedUint8Chunk = new Uint8Array(encryptedChunk as ArrayBufferLike);
+        const encryptedUint8Chunk = new Uint8Array(encryptedChunk);
 
         return encryptedUint8Chunk;
     }
@@ -26,28 +28,40 @@ const encryptData = async (
 const encryptChunkNSave = async(
     writer: WritableStreamDefaultWriter<any>,
     key: CryptoKey, algorithm: { name: string; iv: Uint8Array; },
-    unencryptedArray: Uint8Array, file: File,
+    unencryptedChunk: Uint8Array, file: File,
     start: number|undefined, end: number|undefined
 ) => {
     try
     {
         // Encrypt chunk data
-        const encryptedUint8Chunk = await encryptData(unencryptedArray as Uint8Array, key, algorithm);
+        const encryptedUint8Chunk = await encryptData(unencryptedChunk, key, algorithm);
 
-        // Create a writable pipeline to storage
-        writer.write(encryptedUint8Chunk);
+        if(encryptedUint8Chunk) {
 
-        const fileSize = file.size+1;
-        if(!end) end = 0;
+            if(!end) {
+                // Initialize end-byte value
+                end = 0;
 
-        // Repeat if required
-        if(fileSize > end) {
-            const newEnd = end + 50 * 1024 * 1024;
-            start = end; end = (fileSize > newEnd) ? newEnd : fileSize;
-            const nextChunk = await getFileChunk(file, start, end);
-            encryptChunkNSave(writer, key, algorithm, nextChunk as Uint8Array, file, start, end);
-        }
-        else writer.close();
+                // Writing filename
+                const metaDataLen = encryptedUint8Chunk.length + 1;
+                const metaData = new Uint8Array([...[metaDataLen], ...encryptedUint8Chunk])
+
+                // Create a writable pipeline to storage
+                writer.write(metaData);
+            }
+            else writer.write(encryptedUint8Chunk);
+
+            const fileSize = file.size+1;
+            // Repeat if required
+            if(fileSize > end) {
+                const newEnd = end + 50 * 1024 * 1024;
+                start = end; end = (fileSize > newEnd) ? newEnd : fileSize;
+
+                const nextChunk = await getFileChunk(file, start, end);
+                encryptChunkNSave(writer, key, algorithm, nextChunk as Uint8Array, file, start, end);
+            }
+            else writer.close();
+        };
     }
     catch ({ message })
     {
@@ -72,8 +86,7 @@ const encryptFile = async (file: File, filename: string, passkey: string) =>
             const writer = writableStream.getWriter();
 
             const filenameArray = new TextEncoder().encode(filename);
-            const mergedArray = new Uint8Array([...[filenameArray.length], ...filenameArray]);
-            encryptChunkNSave(writer, key, algorithm, mergedArray, file, undefined, undefined);
+            encryptChunkNSave(writer, key, algorithm, filenameArray, file, undefined, undefined);
         }
         else alert('Key generation failed!');
     }

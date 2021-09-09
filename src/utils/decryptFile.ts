@@ -1,7 +1,9 @@
 import { createWriteStream } from 'streamsaver';
+
 import deriveKey from 'utils/deriveKey';
 import getFileChunk from 'utils/getFileChunk';
 import getAlgorithm from 'utils/getAlgorithm';
+
 
 // Decrypt the file and get the filename and file data
 const decryptData = async (
@@ -15,9 +17,9 @@ const decryptData = async (
 
         return decryptedUint8Array;
     }
-    catch (err)
+    catch ({ message })
     {
-        console.log(err);
+        console.log(message);
         alert('Operation failed! Please try again...');
     };
 };
@@ -31,37 +33,44 @@ const decryptChunkNSave = async (
 ) => {
     try
     {
-        const decryptedUint8Array = await decryptData(encryptedChunk, key, algorithm);
-        
-        if(decryptedUint8Array) {
-            if(start === 0) {
-                const border = decryptedUint8Array[0] + 1;
+        let working = true;
+        if(start === 0) {
+            const metaDataLen = encryptedChunk[0];
 
-                const filenameArray = decryptedUint8Array.slice(1, border);
+            const encryptedFilenameArray = encryptedChunk.slice(1, metaDataLen);
+            const encryptedFileChunk = encryptedChunk.slice(metaDataLen, encryptedChunk.length+1);
+
+            const filenameArray = await decryptData(encryptedFilenameArray, key, algorithm); console.log(filenameArray)
+            const decryptedFileChunk = await decryptData(encryptedFileChunk, key, algorithm);console.log(decryptedFileChunk)
+
+            if(filenameArray && decryptedFileChunk) {
                 const filename = new TextDecoder().decode(filenameArray);
-
-                const fileChunk = decryptedUint8Array.slice(border, decryptedUint8Array.length);
 
                 writableStream = createWriteStream(filename);
                 writer = writableStream.getWriter();
 
                 // Write data through the pipeline to storage
-                writer.write(fileChunk);
+                writer.write(decryptedFileChunk);
             }
-            else writer.write(decryptedUint8Array);
-
-            const fileSize = file.size+1;
-
-            // Repeat if required
-            if(fileSize > end) {
-                const newEnd = end + 50 * 1024 * 1024;
-                start = end; end = (fileSize > newEnd) ? newEnd : fileSize;
-                const nextChunk = await getFileChunk(file, start, end);
-                decryptChunkNSave(key, algorithm, nextChunk as Uint8Array, file, start, end);
-            }
-            else writer.close();
+            else working = false;
         }
-        else alert('Decryption failed!');
+        else
+        {
+            const decryptedUint8Array = await decryptData(encryptedChunk, key, algorithm);
+            if(decryptedUint8Array) writer.write(decryptedUint8Array)
+            else working = false;
+        }
+
+        const fileSize = file.size+1;
+
+        // Repeat if required
+        if(fileSize > end && working) {
+            const newEnd = end + 50 * 1024 * 1024;
+            start = end; end = fileSize > newEnd ? newEnd : fileSize;
+            const nextChunk = await getFileChunk(file, start, end);
+            decryptChunkNSave(key, algorithm, nextChunk as Uint8Array, file, start, end);
+        }
+        else writer.close();
     }
     catch ({ message })
     {
@@ -82,7 +91,7 @@ const decryptFile = async (file: File, passkey: string) =>
             const fileSize = file.size+1;
 
             const fiftyMB = 50 * 1024 * 1024;
-            const start = 0, end = (fileSize > fiftyMB) ? fiftyMB : fileSize;
+            const start = 0, end = fileSize > fiftyMB ? fiftyMB : fileSize;
             const encryptedChunk = await getFileChunk(file, start, end);
             decryptChunkNSave(key, algorithm, encryptedChunk as Uint8Array, file, start, end);
         }
