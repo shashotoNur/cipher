@@ -1,9 +1,11 @@
+import logError from 'utils/logError';
 
 const deriveKey = async (passkey: string) =>
 {
-    try {
-        // Create a PBKDF2 "key" containing the password
-        const passwordKey = await window.crypto.subtle.importKey(
+    try
+    {
+        // Create a PBKDF2 key containing the passkey
+        const pbkdf2Key = await window.crypto.subtle.importKey(
                 "raw", new TextEncoder().encode(passkey),
                 {"name": "PBKDF2"}, false, ["deriveKey"]
         );
@@ -22,13 +24,11 @@ const deriveKey = async (passkey: string) =>
             );
         };
 
-        const key = getKey(passwordKey);
+        const key = getKey(pbkdf2Key);
+
         return key;
     }
-    catch ({ message }) {
-        console.log(message);
-        alert('Operation failed! Please try again...');
-    };
+    catch ({ message }) { logError(message as string); };
 };
 
 

@@ -115,6 +115,6 @@ input[type=button]:active {
   transform: translateY(2px);
 }
 
-ol li {
+ol li, p {
   text-align: left;
 }

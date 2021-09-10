@@ -2,12 +2,12 @@
 import React, { useState } from 'react';
 
 import logo from 'logo.svg';
-import encryptFile from 'utils/encryptFile';
-import decryptFile from 'utils/decryptFile';
+import startEncryption from 'helpers/encryptFile';
+import startDecryption from 'helpers/decryptFile';
 
 
 const Cipher = () =>
-  {
+{
     const [file, setFile] = useState<"" | File>('');
     const [filename, setFilename] = useState('Choose A File');
     const [passkey, setPasskey] = useState('');
@@ -24,13 +24,13 @@ const Cipher = () =>
 
     const encrypt = () =>
     {
-        if(file !== '' && passkey !== '') encryptFile(file, filename, passkey);
+        if(file !== '' && passkey !== '') startEncryption(file, filename, passkey);
         else alert('Please provide a file and a passkey in order to encrypt!');
     };
 
     const decrypt = () =>
     {
-        if(file !== '' && passkey !== '') decryptFile(file, passkey);
+        if(file !== '' && passkey !== '') startDecryption(file, passkey);
         else alert('Please provide a file and a passkey in order to decrypt!');
     };
 
@@ -79,7 +79,7 @@ const Cipher = () =>
             No copyrights &#128521;
         </>
     );
-  };
+};
 
 
 export default Cipher;

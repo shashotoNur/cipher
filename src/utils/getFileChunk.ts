@@ -1,3 +1,4 @@
+import logError from 'utils/logError';
 
 const reader = new FileReader();
 
@@ -8,7 +9,7 @@ const getFileChunk = (file: File, start: number, end: number) =>
     {
         try
         {
-            // Specify a slice
+            // Get a chunk from the full file
             const chunk = file.slice(start, end);
 
             reader.readAsArrayBuffer(chunk);
@@ -23,11 +24,7 @@ const getFileChunk = (file: File, start: number, end: number) =>
                 };
             };
         }
-        catch ({ message })
-        {
-            console.log(message);
-            alert('Operation failed! Please try again...');
-        };
+        catch ({ message }) { logError(message as string); };
     });
 };
 
