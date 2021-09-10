@@ -24,6 +24,7 @@ const decryptData = async (
     catch ({ message }) { logError(message as string); };
 };
 
+
 // Decrypt the provided chunk and save it to storage; repeat
 const decryptChunkNSave = async (
     writer: WritableStreamDefaultWriter<any>,
@@ -42,16 +43,20 @@ const decryptChunkNSave = async (
         if(decryptedChunk) {
             writer.write(decryptedChunk);
 
-            // Repeat if required
+            // Check operation status and update variables
             const [repeat, newStart, newEnd] = shouldRepeat(file, end);
-            if(repeat) decryptChunkNSave(writer, key, algorithm, file, newStart as number, newEnd as number);
+            const paddedEnd = newEnd as number + variables.PADDING;
+            
+            // Repeat if required
+            if(repeat) decryptChunkNSave(writer, key, algorithm, file, newStart as number, paddedEnd);
             else writer.close();
         };
     }
     catch ({ message }) { logError(message as string); };
 };
 
-// Derive key and decrypt first chunk of the file along with its name
+
+// Initialize decryption with key, algo & filename
 const startDecryption = async (file: File, passkey: string) =>
 {
     try
@@ -76,7 +81,7 @@ const startDecryption = async (file: File, passkey: string) =>
                 const writer = writableStream.getWriter();
 
                 // Start encrypting file data
-                const start = 0, end = metaDataLen + variables.CHUNK_SIZE;
+                const start = metaDataLen, end = metaDataLen + variables.CHUNK_SIZE + variables.PADDING;
                 decryptChunkNSave(writer, key, algorithm, file, start, end);
             }
             else logError('Filename decryption failed!');

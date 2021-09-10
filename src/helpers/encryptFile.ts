@@ -33,17 +33,18 @@ const encryptChunkNSave = async(
     try
     {
         // Get file chunk
-        const unencryptedChunk = await getFileChunk(file, start, end);
+        const unencryptedChunk = await getFileChunk(file, start, end) as Uint8Array;
 
         // Encrypt and write chunk data
-        const encryptedChunk = await encryptData(unencryptedChunk as Uint8Array, key, algorithm);
+        const encryptedChunk = await encryptData(unencryptedChunk, key, algorithm);
 
         // Write and continue
         if(encryptedChunk) {
             writer.write(encryptedChunk);
 
-            // Repeat if required
             const [repeat, newStart, newEnd] = shouldRepeat(file, end);
+
+            // Repeat if required
             if(repeat) encryptChunkNSave(writer, key, algorithm, file, newStart as number, newEnd as number);
             else writer.close();
         };
@@ -51,7 +52,7 @@ const encryptChunkNSave = async(
     catch ({ message }) { logError(message as string); };
 };
 
-// Derive key and encrypt first chunk of the file along with its name
+// Initialize encryption with key, algo & filename
 const startEncryption = async (file: File, filename: string, passkey: string) =>
 {
     try
@@ -72,7 +73,6 @@ const startEncryption = async (file: File, filename: string, passkey: string) =>
             const encryptedFilename = await encryptData(filenameArray, key, algorithm);
 
             if(encryptedFilename) {
-
                 // Writing filename
                 const metaDataLen = encryptedFilename.length + 1;
                 const metaData = new Uint8Array([...[metaDataLen], ...encryptedFilename])
