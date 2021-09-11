@@ -1,6 +1,7 @@
 import logError from 'utils/logError';
 import variables from 'env/variables';
 
+
 const shouldRepeat = (file: File, end: number) =>
 {
     try
@@ -14,7 +15,8 @@ const shouldRepeat = (file: File, end: number) =>
         }
         else return [false, undefined, undefined];
     }
-    catch ({ message }) {
+    catch ({ message })
+    {
         logError(message as string);
         return [false, undefined, undefined];
     };

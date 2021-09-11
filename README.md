@@ -31,10 +31,6 @@ Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
 
 Builds the app for production to the `build` folder and deploys the build folder to github pages.
 
-### `npm run repo-update`
-
-Runs the following commands sequentially: `git add .`, `git commit`, `git push -u origin`.
-
 ### `npm run package-update`
 
 Updates the dependency versions in the package.json of the project and installs the latest versions.\
