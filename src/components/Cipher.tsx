@@ -22,9 +22,9 @@ const Cipher = () =>
 
     const onKeyChange = (event: React.ChangeEvent<HTMLInputElement>) => { setPasskey(event.target.value); };
 
-    const clickFileInput = (e: React.KeyboardEvent<HTMLLabelElement>) =>
+    const clickFileInput = (event: React.KeyboardEvent<HTMLLabelElement>) =>
     {
-        if(e.key === ' ' || e.key === ' ')
+        if(event.key === ' ' || event.key === 'Enter')
             document.getElementById('file')?.click();
     };
 
@@ -51,7 +51,7 @@ const Cipher = () =>
             <div className="main">
                 <form onSubmit={ event => event.preventDefault() }>
                     <div>
-                        <label htmlFor="file" id="file-label" tabIndex={0} onKeyPress={ clickFileInput } >
+                        <label htmlFor="file" id="file-label" tabIndex={ 0 } onKeyPress={ clickFileInput } >
                             {
                                 file === ''
                                     ? 'Choose a File'
