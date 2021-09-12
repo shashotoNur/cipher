@@ -44,9 +44,10 @@ const decryptChunkNSave = async (
             writer.write(decryptedChunk);
 
             // Check operation status and update variables
-            const [repeat, newStart, newEnd] = shouldRepeat(file, end);
+            const fileSize = file.size + 1;
+            const [repeat, newStart, newEnd] = shouldRepeat(fileSize, end);
             const paddedEnd = newEnd as number + variables.PADDING;
-            
+
             // Repeat if required
             if(repeat) decryptChunkNSave(writer, key, algorithm, file, newStart as number, paddedEnd);
             else writer.close();
@@ -83,8 +84,7 @@ const startDecryption = async (file: File, passkey: string) =>
                 // Start encrypting file data
                 const start = metaDataLen, end = metaDataLen + variables.CHUNK_SIZE + variables.PADDING;
                 decryptChunkNSave(writer, key, algorithm, file, start, end);
-            }
-            else logError('Filename decryption failed!');
+            };
         }
         else logError('Key generation failed!');
     }

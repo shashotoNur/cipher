@@ -42,7 +42,8 @@ const encryptChunkNSave = async(
         if(encryptedChunk) {
             writer.write(encryptedChunk);
 
-            const [repeat, newStart, newEnd] = shouldRepeat(file, end);
+            const fileSize = file.size + 1;
+            const [repeat, newStart, newEnd] = shouldRepeat(fileSize, end);
 
             // Repeat if required
             if(repeat) encryptChunkNSave(writer, key, algorithm, file, newStart as number, newEnd as number);
@@ -61,7 +62,6 @@ const startEncryption = async (file: File, filename: string, passkey: string) =>
         const algorithm = getAlgorithm(passkey);
 
         if(key && algorithm) {
-
             // Generate a random filename
             const newName = Math.random().toString(36).substring(2);
 
