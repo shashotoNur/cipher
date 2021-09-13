@@ -1,0 +1,7 @@
+{
+  "name": "cipher",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
