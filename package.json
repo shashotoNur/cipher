@@ -19,9 +19,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "production": "serve -s build",
-    "deploy": "react-scripts build && gh-pages -d build",
+    "deploy": "npm run build && gh-pages -d build",
     "package-update": "ncu --upgrade && npm install",
     "eject": "react-scripts eject"
   },
