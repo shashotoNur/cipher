@@ -12,7 +12,7 @@ const getAlgorithm = (passkey: string) =>
             ? passkey
             : passkey.repeat(repetitons + 1))
                 .substring(0, variables.IV_SIZE);
-        
+
         // Create a Uint8Array iv from string
         const bitVector = new TextEncoder().encode(stringVector);
 

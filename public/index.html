@@ -4,8 +4,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <meta name="theme-color" content="#000000" />
-    <meta name="description" content="React app to encrypt files against a custom key" />
+    <meta name="description" content="A progressive web app to encrypt/decrypt files against a custom key." />
+    <meta name="image" content="%PUBLIC_URL%/icons/logo192.png" />
 
     <link rel="icon" href="%PUBLIC_URL%/icons/favicon.ico" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/icons/logo192.png" />
@@ -17,24 +19,26 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    
+
     <script>
       if('serviceWorker' in navigator) {
-          window.addEventListener('load', async () => {
-            try {
-              const registration = await navigator.serviceWorker.register('%PUBLIC_URL%/serviceworker.js')
-              registration.onupdatefound = () => {
-                const installingWorker = registration.installing;
-                installingWorker.onstatechange = () => {
-                  if (installingWorker.state === 'activated') {
-                    const reloadApproved = confirm("Reload is required for offline access. Proceed?");
-                    if(reloadApproved) location.reload();
+          window.addEventListener('load',
+            async () => {
+              try {
+                const registration = await navigator.serviceWorker.register('%PUBLIC_URL%/serviceworker.js')
+                registration.onupdatefound = () => {
+                  const installingWorker = registration.installing;
+
+                  installingWorker.onstatechange = () => {
+                    if (installingWorker.state === 'activated') {
+                      const reloadApproved = confirm("Reload is required for offline access. Proceed?");
+                      if(reloadApproved) location.reload();
+                    };
                   };
                 };
-              };
-            }
-            catch({ message }) { console.log('Error: ', message); };
-          });
+              }
+              catch({ message }) { console.log('Error: ', message); };
+            });
       };
     </script>
   </body>
