@@ -1,5 +1,6 @@
+
 const self = this;
-const CACHE_NAME = "cache-v1";
+const CACHE_NAME = "cipher@0.0.1";
 
 
 // Activate the serviceworker
@@ -16,7 +17,6 @@ self.addEventListener('activate', event => {
     );
     console.log('Worker activated! 👍');
 });
-
 
 // Handle fetch events
 self.addEventListener('fetch', event => {
