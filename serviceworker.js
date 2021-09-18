@@ -1,33 +1,12 @@
 const self = this;
-
 const CACHE_NAME = "cache-v1";
-const urlsToCache = [
-    '/cipher/',
-    '/cipher/index.html',
-    '/cipher/manifest.json',
-    '/cipher/icons/favicon.ico',
-    '/cipher/icons/logo192.png',
-    '/cipher/icons/logo512.png',
-    'https://jimmywarting.github.io/StreamSaver.js/mitm.html?version=2.0.0'
-];
 
-
-// Install serviceworker
-self.addEventListener('install', event => {
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-        .then(cache => {
-            return cache.addAll(urlsToCache);
-        })
-        );
-    console.log('Worker installed! 👍');
-});
 
 // Activate the serviceworker
 self.addEventListener('activate', event => {
     const cacheWhitelist = [];
     cacheWhitelist.push(CACHE_NAME);
-    
+
     event.waitUntil(
         caches.keys().then(cacheNames => {
             cacheNames.forEach(cacheName => {
@@ -37,6 +16,7 @@ self.addEventListener('activate', event => {
     );
     console.log('Worker activated! 👍');
 });
+
 
 // Handle fetch events
 self.addEventListener('fetch', event => {
