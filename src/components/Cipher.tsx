@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 
 import logo from 'logo.svg';
-import startEncryption from 'helpers/encryptFile';
-import startDecryption from 'helpers/decryptFile';
+import encryptFile from 'helpers/encryptFile';
+import decryptFile from 'helpers/decryptFile';
 
 
 const Cipher = () =>
@@ -30,13 +30,13 @@ const Cipher = () =>
 
     const encrypt = () =>
     {
-        if(file !== '' && passkey !== '') startEncryption(file, filename, passkey);
+        if(file !== '' && passkey !== '') encryptFile(file, filename, passkey);
         else alert('Please provide a file and a passkey in order to encrypt!');
     };
 
     const decrypt = () =>
     {
-        if(file !== '' && passkey !== '') startDecryption(file, passkey);
+        if(file !== '' && passkey !== '') decryptFile(file, passkey);
         else alert('Please provide a file and a passkey in order to decrypt!');
     };
 

@@ -1,4 +1,5 @@
 
+
 const logError = (message: string) =>
 {
     console.log(message);

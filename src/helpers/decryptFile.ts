@@ -9,57 +9,57 @@ import shouldRepeat from 'utils/shouldRepeat';
 import variables from 'env/variables';
 
 
-// Decrypt any uint8array with a crypto key and algorithm
-const decryptData = async (
-    encryptedData: Uint8Array, key: CryptoKey,
-    algorithm: { name: string; iv: Uint8Array; }
-) => {
-    try
-    {
-        const decryptedData = await window.crypto.subtle.decrypt(algorithm, key, encryptedData);
-        const decryptedUint8Data = new Uint8Array(decryptedData);
-
-        return decryptedUint8Data;
-    }
-    catch ({ message }) { logError(message as string); };
-};
-
-
-// Decrypt the provided chunk and save it to storage; repeat
-const decryptChunkNSave = async (
-    writer: WritableStreamDefaultWriter<any>,
-    key: CryptoKey, algorithm: { name: string; iv: Uint8Array; },
-    file: File, start: number, end: number
-) => {
-    try
-    {
-        // Get encrypted file chunk
-        const encryptedChunk = await getFileChunk(file, start, end);
-
-        // Decrypt file chunk
-        const decryptedChunk = await decryptData(encryptedChunk as Uint8Array, key, algorithm);
-
-        // Write and continue
-        if(decryptedChunk) {
-            writer.write(decryptedChunk);
-
-            // Check operation status and update variables
-            const fileSize = file.size + 1;
-            const [repeat, newStart, newEnd] = shouldRepeat(fileSize, end);
-            const paddedEnd = newEnd as number + variables.PADDING;
-
-            // Repeat if required
-            if(repeat) decryptChunkNSave(writer, key, algorithm, file, newStart as number, paddedEnd);
-            else writer.close();
-        };
-    }
-    catch ({ message }) { logError(message as string); };
-};
-
-
 // Initialize decryption with key, algo & filename
-const startDecryption = async (file: File, passkey: string) =>
+const decryptFile = async (file: File, passkey: string) =>
 {
+
+    // Decrypt any uint8array with a crypto key and algorithm
+    const decryptData = async (
+        encryptedData: Uint8Array, key: CryptoKey,
+        algorithm: { name: string; iv: Uint8Array; }
+    ) => {
+        try
+        {
+            const decryptedData = await window.crypto.subtle.decrypt(algorithm, key, encryptedData);
+            const decryptedUint8Data = new Uint8Array(decryptedData);
+    
+            return decryptedUint8Data;
+        }
+        catch ({ message }) { logError(message as string); };
+    };
+
+    // Decrypt the provided chunk and save it to storage; repeat
+    const decryptChunkNSave = async (
+        writer: WritableStreamDefaultWriter<any>,
+        key: CryptoKey, algorithm: { name: string; iv: Uint8Array; },
+        file: File, start: number, end: number
+    ) => {
+        try
+        {
+            // Get encrypted file chunk
+            const encryptedChunk = await getFileChunk(file, start, end);
+    
+            // Decrypt file chunk
+            const decryptedChunk = await decryptData(encryptedChunk as Uint8Array, key, algorithm);
+    
+            // Write and continue
+            if(decryptedChunk) {
+                writer.write(decryptedChunk);
+    
+                // Check operation status and update variables
+                const fileSize = file.size + 1;
+                const [repeat, newStart, newEnd] = shouldRepeat(fileSize, end);
+                const paddedEnd = newEnd as number + variables.PADDING;
+    
+                // Repeat if required
+                if(repeat) decryptChunkNSave(writer, key, algorithm, file, newStart as number, paddedEnd);
+                else writer.close();
+            };
+        }
+        catch ({ message }) { logError(message as string); };
+    };
+
+
     try
     {
         const key = await deriveKey(passkey);
@@ -92,4 +92,4 @@ const startDecryption = async (file: File, passkey: string) =>
 };
 
 
-export default startDecryption;
+export default decryptFile;

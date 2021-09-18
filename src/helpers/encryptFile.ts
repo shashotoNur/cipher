@@ -9,53 +9,53 @@ import shouldRepeat from 'utils/shouldRepeat';
 import variables from 'env/variables';
 
 
-// Encrypt any uint8array with a crypto key and algorithm
-const encryptData = async (
-    unencryptedData: Uint8Array, key: CryptoKey,
-    algorithm: { name: string; iv: Uint8Array; }
-) => {
-    try
-    {
-        const encryptedData = await window.crypto.subtle.encrypt(algorithm, key, unencryptedData);
-        const encryptedUint8Data = new Uint8Array(encryptedData);
-
-        return encryptedUint8Data;
-    }
-    catch ({ message }) { logError(message as string); };
-};
-
-// Encrypt the provided chunk and save it to storage; repeat
-const encryptChunkNSave = async(
-    writer: WritableStreamDefaultWriter<any>,
-    key: CryptoKey, algorithm: { name: string; iv: Uint8Array; },
-    file: File, start: number, end: number
-) => {
-    try
-    {
-        // Get file chunk
-        const unencryptedChunk = await getFileChunk(file, start, end) as Uint8Array;
-
-        // Encrypt and write chunk data
-        const encryptedChunk = await encryptData(unencryptedChunk, key, algorithm);
-
-        // Write and continue
-        if(encryptedChunk) {
-            writer.write(encryptedChunk);
-
-            const fileSize = file.size + 1;
-            const [repeat, newStart, newEnd] = shouldRepeat(fileSize, end);
-
-            // Repeat if required
-            if(repeat) encryptChunkNSave(writer, key, algorithm, file, newStart as number, newEnd as number);
-            else writer.close();
-        };
-    }
-    catch ({ message }) { logError(message as string); };
-};
-
 // Initialize encryption with key, algo & filename
-const startEncryption = async (file: File, filename: string, passkey: string) =>
+const encryptFile = async (file: File, filename: string, passkey: string) =>
 {
+    // Encrypt any uint8array with a crypto key and algorithm
+    const encryptData = async (
+        unencryptedData: Uint8Array, key: CryptoKey,
+        algorithm: { name: string; iv: Uint8Array; }
+    ) => {
+        try
+        {
+            const encryptedData = await window.crypto.subtle.encrypt(algorithm, key, unencryptedData);
+            const encryptedUint8Data = new Uint8Array(encryptedData);
+    
+            return encryptedUint8Data;
+        }
+        catch ({ message }) { logError(message as string); };
+    };
+    
+    // Encrypt the provided chunk and save it to storage; repeat
+    const encryptChunkNSave = async(
+        writer: WritableStreamDefaultWriter<any>,
+        key: CryptoKey, algorithm: { name: string; iv: Uint8Array; },
+        file: File, start: number, end: number
+    ) => {
+        try
+        {
+            // Get file chunk
+            const unencryptedChunk = await getFileChunk(file, start, end) as Uint8Array;
+    
+            // Encrypt and write chunk data
+            const encryptedChunk = await encryptData(unencryptedChunk, key, algorithm);
+    
+            // Write and continue
+            if(encryptedChunk) {
+                writer.write(encryptedChunk);
+    
+                const fileSize = file.size + 1;
+                const [repeat, newStart, newEnd] = shouldRepeat(fileSize, end);
+    
+                // Repeat if required
+                if(repeat) encryptChunkNSave(writer, key, algorithm, file, newStart as number, newEnd as number);
+                else writer.close();
+            };
+        }
+        catch ({ message }) { logError(message as string); };
+    };
+
     try
     {
         const key = await deriveKey(passkey);
@@ -64,7 +64,7 @@ const startEncryption = async (file: File, filename: string, passkey: string) =>
         if(key && algorithm) {
             // Generate a random filename
             const newName = Math.random().toString(36).substring(2);
-
+            
             // Create a writable pipeline to storage
             const writableStream = createWriteStream(newName);
             const writer = writableStream.getWriter();
@@ -92,4 +92,4 @@ const startEncryption = async (file: File, filename: string, passkey: string) =>
 };
 
 
-export default startEncryption;
+export default encryptFile;
