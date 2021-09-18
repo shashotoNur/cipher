@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/cipher/static/css/main.5528b563.chunk.css",
-    "main.js": "/cipher/static/js/main.0e627f4a.chunk.js",
+    "main.js": "/cipher/static/js/main.5253c216.chunk.js",
     "runtime-main.js": "/cipher/static/js/runtime-main.7946f9ea.js",
     "static/js/2.376e9cbe.chunk.js": "/cipher/static/js/2.376e9cbe.chunk.js",
     "static/js/3.d6219e4d.chunk.js": "/cipher/static/js/3.d6219e4d.chunk.js",
@@ -13,6 +13,6 @@
     "static/js/runtime-main.7946f9ea.js",
     "static/js/2.376e9cbe.chunk.js",
     "static/css/main.5528b563.chunk.css",
-    "static/js/main.0e627f4a.chunk.js"
+    "static/js/main.5253c216.chunk.js"
   ]
 }
