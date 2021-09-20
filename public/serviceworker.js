@@ -1,9 +1,7 @@
-
 const self = this;
 const CACHE_NAME = "cipher@0.0.1";
 
-
-// Activate the serviceworker
+// On serviceworker activation
 self.addEventListener('activate', event => {
     const cacheWhitelist = [];
     cacheWhitelist.push(CACHE_NAME);
@@ -23,6 +21,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(async function() {
         try
         {
+            // Get via fetch
             const res = await fetch(event.request);
             const cache = await caches.open(CACHE_NAME);
             cache.put(event.request.url, res.clone());
@@ -31,6 +30,7 @@ self.addEventListener('fetch', event => {
         }
         catch({ message })
         {
+            // Get via cache
             const cache = await caches.open(CACHE_NAME);
             const res = await cache.match(event.request.url);
 

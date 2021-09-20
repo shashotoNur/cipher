@@ -1,60 +1,55 @@
 <!DOCTYPE html>
-
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <head>
+        <!-- Browser Related Meta Tags -->
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#1d2433"/>
 
-    <!-- Primary Meta Tags -->
-    <title> Cipher </title>
-    <meta name="title" content="Cipher">
-    <meta name="description" content="A progressive web app to encrypt/decrypt files against a custom key.">
-    <link rel="icon" href="/cipher/icons/favicon.ico" />
+        <!-- Primary Meta Tags -->
+        <title> Cipher </title>
+        <meta name="title" content="Cipher">
+        <meta name="description" content="A progressive web app to encrypt/decrypt files against a custom key.">
+        <link rel="icon" href="/cipher/icons/favicon.ico" />
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://shashoto-nur.github.io/cipher/">
-    <meta property="og:title" content="Cipher">
-    <meta property="og:description" content="A progressive web app to encrypt/decrypt files against a custom key.">
-    <meta property="og:image" content="/cipher/icons/logo512.png">
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://shashoto-nur.github.io/cipher/">
+        <meta property="og:image" content="/cipher/icons/logo512.png">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://shashoto-nur.github.io/cipher/">
-    <meta property="twitter:title" content="Cipher">
-    <meta property="twitter:description" content="A progressive web app to encrypt/decrypt files against a custom key.">
-    <meta property="twitter:image" content="/cipher/icons/logo512.png">
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://shashoto-nur.github.io/cipher/">
+        <meta property="twitter:image" content="/cipher/icons/logo512.png">
 
-    <!-- Other Meta Tags -->
-    <link rel="apple-touch-icon" href="/cipher/icons/logo512.png" />
-    <link rel="manifest" href="/cipher/manifest.json" />
-  </head>
+        <!-- Other Meta Tags -->
+        <link rel="apple-touch-icon" href="/cipher/icons/logo512.png" />
+        <link rel="manifest" href="/cipher/manifest.json" />
+    </head>
 
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root"></div>
+        <script>
+            if('serviceWorker' in navigator) {
+                window.addEventListener('load', async () => {
+                    try {
+                        const registration = await navigator.serviceWorker.register('/cipher/serviceworker.js')
+                        registration.onupdatefound = () => {
+                            const installingWorker = registration.installing;
 
-    <script>
-      if('serviceWorker' in navigator) {
-          window.addEventListener('load', async () => {
-              try {
-                const registration = await navigator.serviceWorker.register('/cipher/serviceworker.js')
-                registration.onupdatefound = () => {
-                  const installingWorker = registration.installing;
-
-                  installingWorker.onstatechange = () => {
-                    if (installingWorker.state === 'activated') {
-                      const reloadApproved = confirm("Reload is required for offline access. Proceed?");
-                      if(reloadApproved) location.reload();
-                    };
-                  };
-                };
-              }
-              catch({ message }) { console.log('Error: ', message); };
-            });
-      };
-    </script>
-
-    <div id="root"></div>
-  </body>
+                            installingWorker.onstatechange = () => {
+                                if (installingWorker.state === 'activated') {
+                                    const reloadApproved = confirm("Reload is required for offline access. Proceed?");
+                                    if(reloadApproved) location.reload();
+                                };
+                            };
+                        };
+                    }
+                    catch({ message }) { console.log('Error: ', message); };
+                });
+            };
+        </script>
+    </body>
 </html>
