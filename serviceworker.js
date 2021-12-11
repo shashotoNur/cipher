@@ -1,6 +1,27 @@
 const self = this;
 const CACHE_NAME = "cipher@0.0.1";
 
+const urlsToCache = [
+    '/cipher/',
+    '/cipher/index.html',
+    '/cipher/manifest.json',
+    '/cipher/icons/favicon.ico',
+    '/cipher/icons/logo192.png',
+    '/cipher/icons/logo512.png',
+    'https://jimmywarting.github.io/StreamSaver.js/mitm.html?version=2.0.0'
+];
+
+
+// Install serviceworker
+self.addEventListener('install', event => {
+    event.waitUntil(caches.open(CACHE_NAME)
+        .then(cache => {
+            return cache.addAll(urlsToCache);
+        })
+    );
+    console.log('Worker installed! 👍');
+});
+
 // On serviceworker activation
 self.addEventListener('activate', event => {
     const cacheWhitelist = [];
@@ -19,17 +40,14 @@ self.addEventListener('activate', event => {
 // Handle fetch events
 self.addEventListener('fetch', event => {
     event.respondWith(async function() {
-        try
-        {
+        try {
             // Get via fetch
             const res = await fetch(event.request);
             const cache = await caches.open(CACHE_NAME);
             cache.put(event.request.url, res.clone());
 
             return res;
-        }
-        catch({ message })
-        {
+        } catch({ message }) {
             // Get via cache
             const cache = await caches.open(CACHE_NAME);
             const res = await cache.match(event.request.url);
