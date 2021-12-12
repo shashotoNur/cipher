@@ -1,6 +1,6 @@
 # Cipher
 
-A react progressive web app written in typescript to encrypt files in the browser.\
+A react progressive web app written in typescript to encrypt/decrypt files against password in the browser.\
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -33,6 +33,7 @@ Builds the app for production to the `build` folder and deploys the build folder
 
 ### `npm run package-update`
 
+Run `npm install -g ncu` if you don't have ncu installed.\
 Updates the dependency versions in the package.json of the project and installs the latest versions.\
 
 ### `npm run eject`
@@ -42,3 +43,12 @@ Copies all the configuration files and the transitive dependencies (webpack, Bab
 ### Live Demo
 
 You can view a live demo here as a [Github Page](https://shashoto-nur.github.io/cipher).
+
+### Usage
+
+Instructions:
+
+1. Select a file.
+2. Write any passkey to encrypt/decrypt the file against.
+3. Encrypt or Decrypt your file. It's that easy!
+Note: Only the passkey used to encrypt a file can be used to decrypt the same.

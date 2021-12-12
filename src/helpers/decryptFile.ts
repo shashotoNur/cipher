@@ -10,22 +10,19 @@ import variables from 'env/variables';
 
 
 // Initialize decryption with key, algo & filename
-const decryptFile = async (file: File, passkey: string) =>
-{
+const decryptFile = async (file: File, passkey: string) => {
 
     // Decrypt any uint8array with a crypto key and algorithm
     const decryptData = async (
         encryptedData: Uint8Array, key: CryptoKey,
         algorithm: { name: string; iv: Uint8Array; }
     ) => {
-        try
-        {
+        try {
             const decryptedData = await window.crypto.subtle.decrypt(algorithm, key, encryptedData);
             const decryptedUint8Data = new Uint8Array(decryptedData);
     
             return decryptedUint8Data;
-        }
-        catch ({ message }) { logError(message as string); };
+        } catch ({ message }) { logError(message as string); };
     };
 
     // Decrypt the provided chunk and save it to storage; repeat
@@ -34,8 +31,7 @@ const decryptFile = async (file: File, passkey: string) =>
         key: CryptoKey, algorithm: { name: string; iv: Uint8Array; },
         file: File, start: number, end: number
     ) => {
-        try
-        {
+        try {
             // Get encrypted file chunk
             const encryptedChunk = await getFileChunk(file, start, end);
     
@@ -55,25 +51,21 @@ const decryptFile = async (file: File, passkey: string) =>
                 if(repeat) decryptChunkNSave(writer, key, algorithm, file, newStart as number, paddedEnd);
                 else writer.close();
             };
-        }
-        catch ({ message }) { logError(message as string); };
+        } catch ({ message }) { logError(message as string); };
     };
 
 
-    try
-    {
+    try {
         const key = await deriveKey(passkey);
         const algorithm = getAlgorithm(passkey);
 
         if(key && algorithm) {
-
             // Extract and decrypt filename array
             const metaDataLen = (await getFileChunk(file, 0, 1) as Uint8Array)[0];
             const encryptedFilename = await getFileChunk(file, 1, metaDataLen);
             const decryptedFilenameArray = await decryptData(encryptedFilename as Uint8Array, key, algorithm);
 
             if(decryptedFilenameArray) {
-
                 // Convert filename Uint8array to string
                 const filename = new TextDecoder().decode(decryptedFilenameArray);
 
@@ -85,10 +77,8 @@ const decryptFile = async (file: File, passkey: string) =>
                 const start = metaDataLen, end = metaDataLen + variables.CHUNK_SIZE + variables.PADDING;
                 decryptChunkNSave(writer, key, algorithm, file, start, end);
             };
-        }
-        else logError('Key generation failed!');
-    }
-    catch ({ message }) { logError(message as string); };
+        } else logError('Key generation failed!');
+    } catch ({ message }) { logError(message as string); };
 };
 
 

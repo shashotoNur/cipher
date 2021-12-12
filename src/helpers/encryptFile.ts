@@ -10,21 +10,18 @@ import variables from 'env/variables';
 
 
 // Initialize encryption with key, algo & filename
-const encryptFile = async (file: File, filename: string, passkey: string) =>
-{
+const encryptFile = async (file: File, filename: string, passkey: string) => {
     // Encrypt any uint8array with a crypto key and algorithm
     const encryptData = async (
         unencryptedData: Uint8Array, key: CryptoKey,
         algorithm: { name: string; iv: Uint8Array; }
     ) => {
-        try
-        {
+        try {
             const encryptedData = await window.crypto.subtle.encrypt(algorithm, key, unencryptedData);
             const encryptedUint8Data = new Uint8Array(encryptedData);
     
             return encryptedUint8Data;
-        }
-        catch ({ message }) { logError(message as string); };
+        } catch ({ message }) { logError(message as string); };
     };
     
     // Encrypt the provided chunk and save it to storage; repeat
@@ -33,11 +30,9 @@ const encryptFile = async (file: File, filename: string, passkey: string) =>
         key: CryptoKey, algorithm: { name: string; iv: Uint8Array; },
         file: File, start: number, end: number
     ) => {
-        try
-        {
+        try {
             // Get file chunk
             const unencryptedChunk = await getFileChunk(file, start, end) as Uint8Array;
-    
             // Encrypt and write chunk data
             const encryptedChunk = await encryptData(unencryptedChunk, key, algorithm);
     
@@ -52,19 +47,17 @@ const encryptFile = async (file: File, filename: string, passkey: string) =>
                 if(repeat) encryptChunkNSave(writer, key, algorithm, file, newStart as number, newEnd as number);
                 else writer.close();
             };
-        }
-        catch ({ message }) { logError(message as string); };
+        } catch ({ message }) { logError(message as string); };
     };
 
-    try
-    {
+    try {
         const key = await deriveKey(passkey);
         const algorithm = getAlgorithm(passkey);
 
         if(key && algorithm) {
             // Generate a random filename
             const newName = Math.random().toString(36).substring(2);
-            
+
             // Create a writable pipeline to storage
             const writableStream = createWriteStream(newName);
             const writer = writableStream.getWriter();
@@ -83,12 +76,9 @@ const encryptFile = async (file: File, filename: string, passkey: string) =>
                 // Start encrypting file data
                 const start = 0, end = variables.CHUNK_SIZE;
                 encryptChunkNSave(writer, key, algorithm, file, start, end);
-            }
-            else logError('Filename encryption failed!');
-        }
-        else logError('Key generation failed!');
-    }
-    catch ({ message }) { logError(message as string); };
+            } else logError('Filename encryption failed!');
+        } else logError('Key generation failed!');
+    } catch ({ message }) { logError(message as string); };
 };
 
 

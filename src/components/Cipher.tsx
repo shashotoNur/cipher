@@ -2,18 +2,17 @@
 import React, { useState } from 'react';
 
 import logo from 'logo.svg';
+
 import encryptFile from 'helpers/encryptFile';
 import decryptFile from 'helpers/decryptFile';
 
 
-const Cipher = () =>
-{
+const Cipher = () => {
     const [file, setFile] = useState<"" | File>('');
     const [filename, setFilename] = useState('Choose A File');
     const [passkey, setPasskey] = useState('');
 
-    const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    {
+    const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if(event?.target?.files![0]) {
             setFile(event.target.files![0]);
             setFilename(event.target.files![0].name);
@@ -22,20 +21,16 @@ const Cipher = () =>
 
     const onKeyChange = (event: React.ChangeEvent<HTMLInputElement>) => { setPasskey(event.target.value); };
 
-    const clickFileInput = (event: React.KeyboardEvent<HTMLLabelElement>) =>
-    {
-        if(event.key === ' ' || event.key === 'Enter')
-            document.getElementById('file')?.click();
+    const clickFileInput = (event: React.KeyboardEvent<HTMLLabelElement>) => {
+        if(event.key === ' ' || event.key === 'Enter') document.getElementById('file')?.click();
     };
 
-    const encrypt = () =>
-    {
+    const encrypt = () => {
         if(file !== '' && passkey !== '') encryptFile(file, filename, passkey);
         else alert('Please provide a file and a passkey in order to encrypt!');
     };
 
-    const decrypt = () =>
-    {
+    const decrypt = () => {
         if(file !== '' && passkey !== '') decryptFile(file, passkey);
         else alert('Please provide a file and a passkey in order to decrypt!');
     };
@@ -84,11 +79,11 @@ const Cipher = () =>
                 </div>
                 <br />
 
-                No copyrights &#128521;
+                <a href="https://github.com/shashoto-nur/cipher">No copyrights &#128521;</a>
             </div>
         </>
-
     );
+
 };
 
 
