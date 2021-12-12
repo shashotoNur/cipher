@@ -48,6 +48,8 @@ self.addEventListener('fetch', event => {
 
             return res;
         } catch({ message }) {
+            console.log({ message });
+
             // Get via cache
             const cache = await caches.open(CACHE_NAME);
             const res = await cache.match(event.request.url);
