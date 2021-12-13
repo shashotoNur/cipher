@@ -3,6 +3,13 @@
 A react progressive web app written in typescript to encrypt/decrypt files against password in the browser.\
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Installation
+
+Clone the repo: `git clone https://github.com/shashoto-nur/cipher.git`\
+Enter the project directory: `cd cipher`\
+Install the necessary dependencies: `npm install`\
+Run the project locally: `npm start`
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -46,9 +53,7 @@ You can view a live demo here as a [Github Page](https://shashoto-nur.github.io/
 
 ### Usage
 
-Instructions:
-
 1. Select a file.
 2. Write any passkey to encrypt/decrypt the file against.
-3. Encrypt or Decrypt your file. It's that easy!
+3. Encrypt or Decrypt your file. It's that easy!\
 Note: Only the passkey used to encrypt a file can be used to decrypt the same.

@@ -22,7 +22,9 @@ const decryptFile = async (file: File, passkey: string) => {
             const decryptedUint8Data = new Uint8Array(decryptedData);
     
             return decryptedUint8Data;
+
         } catch ({ message }) { logError(message as string); };
+
     };
 
     // Decrypt the provided chunk and save it to storage; repeat
@@ -32,6 +34,7 @@ const decryptFile = async (file: File, passkey: string) => {
         file: File, start: number, end: number
     ) => {
         try {
+
             // Get encrypted file chunk
             const encryptedChunk = await getFileChunk(file, start, end);
     
@@ -51,11 +54,14 @@ const decryptFile = async (file: File, passkey: string) => {
                 if(repeat) decryptChunkNSave(writer, key, algorithm, file, newStart as number, paddedEnd);
                 else writer.close();
             };
+
         } catch ({ message }) { logError(message as string); };
+
     };
 
 
     try {
+
         const key = await deriveKey(passkey);
         const algorithm = getAlgorithm(passkey);
 
@@ -66,6 +72,7 @@ const decryptFile = async (file: File, passkey: string) => {
             const decryptedFilenameArray = await decryptData(encryptedFilename as Uint8Array, key, algorithm);
 
             if(decryptedFilenameArray) {
+
                 // Convert filename Uint8array to string
                 const filename = new TextDecoder().decode(decryptedFilenameArray);
 
@@ -77,8 +84,11 @@ const decryptFile = async (file: File, passkey: string) => {
                 const start = metaDataLen, end = metaDataLen + variables.CHUNK_SIZE + variables.PADDING;
                 decryptChunkNSave(writer, key, algorithm, file, start, end);
             };
+
         } else logError('Key generation failed!');
+
     } catch ({ message }) { logError(message as string); };
+
 };
 
 

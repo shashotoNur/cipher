@@ -1,5 +1,5 @@
 {
-  "homepage": "http://shashoto-nur.github.io/cipher",
+  "homepage": "https://shashoto-nur.github.io/cipher",
   "name": "cipher",
   "version": "0.1.0",
   "private": true,
@@ -22,12 +22,17 @@
     "package-update": "ncu --upgrade && npm install",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shashoto-nur/cipher"
   },
+  "keywords": [
+    "nodejs",
+    "react",
+    "cryptography"
+  ],
+  "author": "shashoto-nur",
+  "license": "ISC",
   "browserslist": {
     "production": [
       ">0.2%",
