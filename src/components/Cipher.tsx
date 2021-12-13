@@ -8,15 +8,14 @@ import decryptFile from 'helpers/decryptFile';
 
 
 const Cipher = () => {
-
     const [file, setFile] = useState<"" | File>('');
     const [filename, setFilename] = useState('Choose A File');
     const [passkey, setPasskey] = useState('');
 
     const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if(event?.target?.files && event.target.files[0]) {
-            setFile(event.target.files[0]);
-            setFilename(event.target.files[0].name);
+        if(event?.target?.files![0]) {
+            setFile(event.target.files![0]);
+            setFilename(event.target.files![0].name);
         };
     };
 
@@ -42,7 +41,6 @@ const Cipher = () => {
             <h1> Cipher </h1>
 
             <div className="division"><hr /></div>
-
             <br /><br /><br />
 
             <div className="main">
@@ -56,7 +54,6 @@ const Cipher = () => {
                             }
                             <input type='file' id="file" name="file" onChange={ onFileChange } />
                         </label>
-
                         <br /><br /><br />
 
                         <label id="passkey-label" htmlFor="key">
@@ -80,13 +77,11 @@ const Cipher = () => {
 
                     <p>Note: Only the passkey used to encrypt a file can be used to decrypt the same.</p>
                 </div>
-
                 <br />
 
                 <a href="https://github.com/shashoto-nur/cipher">No copyrights &#128521;</a>
             </div>
         </>
-
     );
 
 };

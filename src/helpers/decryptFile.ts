@@ -34,7 +34,6 @@ const decryptFile = async (file: File, passkey: string) => {
         file: File, start: number, end: number
     ) => {
         try {
-
             // Get encrypted file chunk
             const encryptedChunk = await getFileChunk(file, start, end);
     
@@ -43,6 +42,7 @@ const decryptFile = async (file: File, passkey: string) => {
     
             // Write and continue
             if(decryptedChunk) {
+
                 writer.write(decryptedChunk);
     
                 // Check operation status and update variables
@@ -61,11 +61,11 @@ const decryptFile = async (file: File, passkey: string) => {
 
 
     try {
-
         const key = await deriveKey(passkey);
         const algorithm = getAlgorithm(passkey);
 
         if(key && algorithm) {
+
             // Extract and decrypt filename array
             const metaDataLen = (await getFileChunk(file, 0, 1) as Uint8Array)[0];
             const encryptedFilename = await getFileChunk(file, 1, metaDataLen);

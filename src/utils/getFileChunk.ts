@@ -1,9 +1,11 @@
+
 import logError from 'utils/logError';
 
 const reader = new FileReader();
 
 // Get the binary file data
 const getFileChunk = (file: File, start: number, end: number) => {
+
     return new Promise((resolve, _reject) => {
         try {
             // Get a chunk from the full file
@@ -11,8 +13,10 @@ const getFileChunk = (file: File, start: number, end: number) => {
 
             // Read the chunk
             reader.readAsArrayBuffer(chunk);
+
             reader.onloadend = event => {
-                if(event.target && event.target.readyState === FileReader.DONE) {
+                if(event.target && event.target.readyState === FileReader.DONE)
+                {
                     const arrayBufferChunk = event.target.result;
                     const uint8Chunk = new Uint8Array(arrayBufferChunk as ArrayBufferLike);
 
@@ -24,6 +28,7 @@ const getFileChunk = (file: File, start: number, end: number) => {
         } catch ({ message }) { logError(message as string); };
 
     });
+
 };
 
 

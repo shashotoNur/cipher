@@ -22,17 +22,12 @@
     "package-update": "ncu --upgrade && npm install",
     "eject": "react-scripts eject"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/shashoto-nur/cipher"
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
-  "keywords": [
-    "nodejs",
-    "react",
-    "cryptography"
-  ],
-  "author": "shashoto-nur",
-  "license": "ISC",
   "browserslist": {
     "production": [
       ">0.2%",
@@ -50,5 +45,16 @@
     "gh-pages": "^3.2.3",
     "npm-check-updates": "^12.0.3",
     "serve": "^13.0.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shashoto-nur/cipher"
+  },
+  "keywords": [
+    "nodejs",
+    "react",
+    "cryptography"
+  ],
+  "author": "shashoto-nur",
+  "license": "ISC"
 }

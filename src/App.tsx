@@ -2,10 +2,11 @@
 // Component(s)
 import Cipher from 'components/Cipher';
 
+
 const App = () => {
     return (
         <div className="App">
-            <Cipher />
+           <Cipher />
         </div>
     );
 };

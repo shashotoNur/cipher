@@ -53,6 +53,8 @@ You can view a live demo here as a [Github Page](https://shashoto-nur.github.io/
 
 ### Usage
 
+Instructions:
+
 1. Select a file.
 2. Write any passkey to encrypt/decrypt the file against.
 3. Encrypt or Decrypt your file. It's that easy!\
