@@ -49,7 +49,7 @@ Copies all the configuration files and the transitive dependencies (webpack, Bab
 
 ### Live Demo
 
-You can view a live demo here as a [Github Page](https://shashoto-nur.github.io/cipher).
+You can view a live demo here as a [Github Page](https://shashoto-nur.github.io/cipher) or on [Firebase](https://cipher-72c2a.firebaseapp.com/).
 
 ### Usage
 
