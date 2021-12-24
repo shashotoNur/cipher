@@ -1,5 +1,4 @@
 {
-  "homepage": "https://shashoto-nur.github.io/cipher",
   "name": "cipher",
   "version": "0.1.0",
   "private": true,
@@ -17,8 +16,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
-    "production": "serve -s build",
-    "deploy": "npm run build && gh-pages -d build",
+    "production": "firebase serve",
+    "deploy": "npm run build && firebase deploy",
     "package-update": "ncu --upgrade && npm install",
     "eject": "react-scripts eject"
   },

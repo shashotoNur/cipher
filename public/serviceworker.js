@@ -1,12 +1,12 @@
 const self = this;
 const CACHE_NAME = "cipher@0.0.1";
 const urlsToCache = [
-    '/cipher/',
-    '/cipher/index.html',
-    '/cipher/manifest.json',
-    '/cipher/icons/favicon.ico',
-    '/cipher/icons/logo192.png',
-    '/cipher/icons/logo512.png',
+    '/',
+    '/index.html',
+    '/manifest.json',
+    '/icons/favicon.ico',
+    '/icons/logo192.png',
+    '/icons/logo512.png',
     'https://jimmywarting.github.io/StreamSaver.js/mitm.html?version=2.0.0',
     'https://jimmywarting.github.io/StreamSaver.js/sw.js'
 ];
