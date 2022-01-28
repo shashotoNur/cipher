@@ -1,18 +1,16 @@
 {
   "files": {
-    "main.css": "/cipher/static/css/main.647301df.chunk.css",
-    "main.js": "/cipher/static/js/main.ea79284c.chunk.js",
-    "runtime-main.js": "/cipher/static/js/runtime-main.3b11f806.js",
-    "static/js/2.376e9cbe.chunk.js": "/cipher/static/js/2.376e9cbe.chunk.js",
-    "static/js/3.99b67b7e.chunk.js": "/cipher/static/js/3.99b67b7e.chunk.js",
+    "main.css": "/cipher/static/css/main.8f682e56.css",
+    "main.js": "/cipher/static/js/main.8dd88495.js",
+    "static/js/787.7fdb7522.chunk.js": "/cipher/static/js/787.7fdb7522.chunk.js",
+    "static/media/logo.svg": "/cipher/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/cipher/index.html",
-    "static/js/2.376e9cbe.chunk.js.LICENSE.txt": "/cipher/static/js/2.376e9cbe.chunk.js.LICENSE.txt",
-    "static/media/logo.6ce24c58.svg": "/cipher/static/media/logo.6ce24c58.svg"
+    "main.8f682e56.css.map": "/cipher/static/css/main.8f682e56.css.map",
+    "main.8dd88495.js.map": "/cipher/static/js/main.8dd88495.js.map",
+    "787.7fdb7522.chunk.js.map": "/cipher/static/js/787.7fdb7522.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.3b11f806.js",
-    "static/js/2.376e9cbe.chunk.js",
-    "static/css/main.647301df.chunk.css",
-    "static/js/main.ea79284c.chunk.js"
+    "static/css/main.8f682e56.css",
+    "static/js/main.8dd88495.js"
   ]
 }
