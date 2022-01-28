@@ -3,6 +3,8 @@
 A react progressive web app written in typescript to encrypt/decrypt files against password in the browser.\
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+![Cipher preview](preview.png?raw=true "Cipher")
+
 ## Installation
 
 Clone the repo: `git clone https://github.com/shashoto-nur/cipher.git`\

@@ -15,7 +15,7 @@ const getAlgorithm = (passkey: string) => {
         // Create a Uint8Array iv from string
         const bitVector = new TextEncoder().encode(stringVector);
 
-        return { name: variables.ALGO, iv: bitVector};
+        return { name: variables.ALGO, iv: bitVector };
 
     } catch ({ message }) { logError(message as string); };
 
