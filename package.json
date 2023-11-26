@@ -1,5 +1,5 @@
 {
-  "homepage": "https://shashoto-nur.github.io/cipher",
+  "homepage": "https://shashotoNur.github.io/cipher",
   "name": "cipher",
   "version": "0.1.0",
   "private": true,
@@ -48,13 +48,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/shashoto-nur/cipher"
+    "url": "https://github.com/shashotoNur/cipher"
   },
   "keywords": [
     "nodejs",
     "react",
     "cryptography"
   ],
-  "author": "shashoto-nur",
+  "author": "shashotoNur",
   "license": "ISC"
 }

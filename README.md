@@ -7,7 +7,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Installation
 
-Clone the repo: `git clone https://github.com/shashoto-nur/cipher.git`\
+Clone the repo: `git clone https://github.com/shashotoNur/cipher.git`\
 Enter the project directory: `cd cipher`\
 Install the necessary dependencies: `npm install`\
 Run the project locally: `npm start`
@@ -51,7 +51,7 @@ Copies all the configuration files and the transitive dependencies (webpack, Bab
 
 ### Live Demo
 
-You can view a live demo here as a [Github Page](https://shashoto-nur.github.io/cipher) or on [Firebase](https://cipher-72c2a.firebaseapp.com/).
+You can view a live demo here as a [Github Page](https://shashotoNur.github.io/cipher) or on [Firebase](https://cipher-72c2a.firebaseapp.com/).
 
 ### Usage
 
@@ -60,4 +60,4 @@ Instructions:
 1. Select a file.
 2. Write any passkey to encrypt/decrypt the file against.
 3. Encrypt or Decrypt your file. It's that easy!\
-Note: Only the passkey used to encrypt a file can be used to decrypt the same.
+   Note: Only the passkey used to encrypt a file can be used to decrypt the same.
