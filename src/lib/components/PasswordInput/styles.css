@@ -1,0 +1,101 @@
+/* === Input Group === */
+.input-group {
+	display: flex;
+	background: #1a1d24;
+	border-radius: 0.75rem;
+	overflow: hidden;
+	width: 100%;
+}
+
+.password-input {
+	flex: 1;
+	padding: 0.75rem 1rem;
+	font-size: 1rem;
+	color: #ccc;
+	background: transparent;
+	border: none;
+	outline: none;
+}
+
+.password-input:focus {
+	background: #0b0e13;
+}
+
+/* === Controls and Icon Buttons === */
+.controls {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	background: #1a1d24;
+	padding: 0 0.75rem;
+}
+
+.icon-button {
+	background: none;
+	border: none;
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+	color: #b0b0b0;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition:
+		background-color 0.2s,
+		transform 0.2s,
+		color 0.2s;
+}
+
+.icon-button:hover {
+	color: #fff;
+	background: #0b0e13;
+	transform: scale(1.1);
+}
+
+/* === Strength Bar === */
+.strength-bar,
+progress::-webkit-progress-bar {
+	width: 95%;
+	margin: 1rem;
+	height: 0.5rem;
+	background: #5a5c5d;
+	border-radius: 0.25rem;
+	appearance: none;
+	overflow: hidden;
+}
+
+progress::-webkit-progress-value,
+progress::-moz-progress-bar {
+	background: linear-gradient(90deg, #1a1d24, #0b0e13);
+}
+
+/* === Messages === */
+.warning-text,
+.password-status-text {
+	text-align: center;
+	margin-top: 0.5rem;
+	font-size: 0.875rem;
+}
+
+.warning-text {
+	color: #ff6b6b;
+}
+
+/* === Animations === */
+@keyframes fadeInOut {
+	0% {
+		opacity: 0;
+		transform: translateY(5px);
+	}
+	30% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	70% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: translateY(-5px);
+	}
+}

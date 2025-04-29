@@ -1,63 +1,91 @@
-# Cipher
+```
+[Version]                    (string, Unencrypted)
+[Salt]                       (16 bytes, Unencrypted) — for PBKDF2
+[Header Nonce]               (12 bytes, Unencrypted) — for AES-GCM encryption of header
 
-A react progressive web app written in typescript to encrypt/decrypt files against password in the browser.\
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+// -- User Metadata (Plaintext) --
+[Hint Length]                (2 bytes, Unencrypted)
+[Hint]                       (variable, Unencrypted)
+[Description Length]         (2 bytes, Unencrypted)
+[Description]                (variable, Unencrypted)
 
-![Cipher preview](preview.png?raw=true "Cipher")
+// -- Encrypted Header Block --
+[Header Ciphertext Length]   (4 bytes, Unencrypted)
+[Encrypted Header Block]     (variable, Encrypted with Header Nonce)
+    └── [Filename Length]     (2 bytes)
+        [Filename]            (variable)
+        [Timestamp Length]    (2 bytes)
+        [Timestamp]           (variable)
 
-## Installation
+// -- File Content Info --
+[Total Chunk Count]          (4 or 8 bytes, Unencrypted) — number of encrypted chunks
 
-Clone the repo: `git clone https://github.com/shashotoNur/cipher.git`\
-Enter the project directory: `cd cipher`\
-Install the necessary dependencies: `npm install`\
-Run the project locally: `npm start`
+// -- File Data Stream (for each chunk) --
+[Chunk Nonce]                (12 bytes, Unencrypted)
+[Chunk Ciphertext Length]    (4 bytes, Unencrypted)
+[Chunk Ciphertext]           (variable, Encrypted with Chunk Nonce)
 
-## Available Scripts
+//    Signature
+[Signature]
+[Signature Length]           (2 bytes, Unencrypted)
+[Prefix Length]               (2 bytes, Unencrypted)
+```
 
-In the project directory, you can run:
+# Svelte library
 
-### `npm start`
+Everything you need to build a Svelte library, powered by [`sv`](https://npmjs.com/package/sv).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Read more about creating a library [in the docs](https://svelte.dev/docs/kit/packaging).
 
-### `npm run build`
+## Creating a project
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+If you're seeing this, you've probably already done this step. Congrats!
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+# create a new project in the current directory
+npx sv create
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# create a new project in my-app
+npx sv create my-app
+```
 
-### `npm run production`
+## Developing
 
-Serves the build folder of the react app on localhost.
-Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-### `npm run deploy`
+```bash
+npm run dev
 
-Builds the app for production to the `build` folder and deploys the build folder to github pages.
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
 
-### `npm run package-update`
+Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
 
-Run `npm install -g ncu` if you don't have ncu installed.\
-Updates the dependency versions in the package.json of the project and installs the latest versions.\
+## Building
 
-### `npm run eject`
+To build your library:
 
-Copies all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+npm run package
+```
 
-### Live Demo
+To create a production version of your showcase app:
 
-You can view a live demo here as a [Github Page](https://shashotoNur.github.io/cipher) or on [Firebase](https://cipher-72c2a.firebaseapp.com/).
+```bash
+npm run build
+```
 
-### Usage
+You can preview the production build with `npm run preview`.
 
-Instructions:
+> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
 
-1. Select a file.
-2. Write any passkey to encrypt/decrypt the file against.
-3. Encrypt or Decrypt your file. It's that easy!\
-   Note: Only the passkey used to encrypt a file can be used to decrypt the same.
+## Publishing
+
+Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
+
+To publish your library to [npm](https://www.npmjs.com):
+
+```bash
+npm publish
+```

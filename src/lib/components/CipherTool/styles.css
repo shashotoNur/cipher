@@ -1,0 +1,276 @@
+/* ===== Base Container ===== */
+.cipher-tool-container {
+	background: #0e1117;
+	border-radius: 0.75rem;
+	padding: 2rem;
+	max-width: 800px;
+	margin: 2.5rem auto;
+	color: #aaaaa8;
+	box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.5);
+	transition: all 0.3s ease;
+}
+.cipher-tool-container:hover {
+	transform: translateY(-0.3rem);
+	box-shadow: 0 0.6rem 1.8rem rgba(0, 0, 0, 0.6);
+}
+
+/* ===== Header ===== */
+.header {
+	text-align: center;
+	margin-bottom: 3.5rem;
+}
+.header img {
+	margin-bottom: 0.75rem;
+	width: 96px;
+	height: 96px;
+}
+
+.header img:hover {
+	transform: scale(1.02);
+}
+
+.header-title {
+	margin: 0.6rem 0;
+	font-size: 2.2rem;
+	color: #fff;
+}
+.header-description {
+	color: #838384;
+	font-size: 0.9rem;
+	line-height: 1.5;
+	max-width: 90%;
+	margin: 0 auto;
+}
+
+/* ===== Operation Buttons ===== */
+.operation-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-bottom: 2rem;
+	background: #1a1d24;
+	border-radius: 2rem;
+	overflow: hidden;
+}
+.operation-button {
+	flex: 1;
+	min-width: 150px;
+	padding: 1rem 2rem;
+	font-size: 1.2rem;
+	font-weight: 600;
+	background: transparent;
+	color: #aaaaa8;
+	border: none;
+	cursor: pointer;
+	position: relative;
+	text-align: center;
+	transition: all 0.3s ease;
+}
+.operation-button::before,
+.action-button::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		45deg,
+		transparent 15%,
+		rgba(255, 255, 255, 0.2) 35%,
+		rgba(255, 255, 255, 0.5) 50%,
+		rgba(255, 255, 255, 0.2) 65%,
+		transparent 85%
+	);
+	background-size: 200% 100%;
+	animation: shimmer 2s infinite linear;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.3s ease;
+}
+.operation-button:hover::before,
+.action-button:hover::before {
+	opacity: 1;
+}
+.operation-button.active {
+	background: #6c6d6c;
+	color: #fff;
+	font-weight: 700;
+	transform: scale(1.02);
+}
+.operation-button:not(.active):hover {
+	background: rgba(255, 255, 255, 0.05);
+	color: #ddd;
+}
+.operation-button.active::before {
+	opacity: 0.3;
+}
+
+/* ===== Forms ===== */
+.form-section {
+	margin-bottom: 1.5rem;
+	padding: 1.5rem;
+}
+.form-title {
+	margin: 0 0 1.2rem;
+	padding-bottom: 0.8rem;
+	font-size: 1.8rem;
+	text-align: center;
+	color: #fff;
+}
+
+/* ===== Action Buttons ===== */
+.action-button {
+	width: 100%;
+	margin-top: 10px;
+	padding: 0.8rem 1.8rem;
+	font-size: 1rem;
+	color: #fff;
+	background-color: #4a4d4c;
+	border: none;
+	border-radius: 0.8rem;
+	cursor: pointer;
+	box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.3);
+	position: relative;
+	overflow: hidden;
+	transition: all 0.3s ease;
+}
+.action-button:hover:not(:disabled) {
+	transform: translateY(-0.15rem) scale(1.04);
+	box-shadow: 0 0.4rem 0.6rem rgba(0, 0, 0, 0.4);
+}
+.action-button:disabled {
+	background: #6c6d6c;
+	cursor: not-allowed;
+	opacity: 0.7;
+	box-shadow: none;
+	transform: none;
+}
+
+/* Variants */
+.encrypt-button {
+	width: 70%;
+	margin: 7% 15%;
+	background: #1c1c24;
+}
+.encrypt-button:hover:not(:disabled) {
+	background: #282834;
+}
+
+.button-container {
+	display: flex;
+	justify-content: space-between;
+}
+
+.verify-button,
+.decrypt-button {
+	width: 30%;
+	margin: 7% 10%;
+	padding: 1.2rem 1.8rem;
+	background: #1c1c24;
+}
+.verify-button:hover:not(:disabled),
+.decrypt-button:hover:not(:disabled) {
+	background: #282834;
+}
+
+/* ===== Warning Box ===== */
+.warning {
+	background: #1a1d24;
+	padding: 1.2rem;
+	margin-top: 1.2rem;
+	border-radius: 0.6rem;
+	box-shadow: 0 0.15rem 0.3rem rgba(0, 0, 0, 0.2);
+}
+.warning p {
+	margin: 0 0 0.8rem;
+	font-weight: 600;
+	color: #ffffff;
+	font-size: 1rem;
+}
+.warning-list {
+	padding-left: 0;
+	margin-bottom: 0.8rem;
+	list-style: none;
+}
+.warning-item {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	font-size: 0.9rem;
+	color: #ffffff;
+}
+
+/* ===== Remove Buttons ===== */
+.remove-btn,
+.remove-all-btn {
+	background: #26292f;
+	color: #ffffff;
+	padding: 0.3rem 0.6rem;
+	font-size: 0.75rem;
+	border: none;
+	border-radius: 0.15rem;
+	margin-top: 0.6rem;
+	box-shadow: 0 0.08rem 0.15rem rgba(0, 0, 0, 0.15);
+	transition:
+		background-color 0.2s ease,
+		transform 0.2s ease;
+}
+.remove-btn:hover:not(:disabled),
+.remove-all-btn:hover:not(:disabled) {
+	background: #555555;
+	cursor: pointer;
+	transform: scale(1.03);
+	box-shadow: 0 0.2rem 0.3rem rgba(0, 0, 0, 0.2);
+}
+
+/* ===== Verification Success Box ===== */
+.verification-success {
+	margin-top: 1.2rem;
+	padding: 0.8rem;
+	background: #1a1d24;
+	border-radius: 0.4rem;
+	font-size: 0.9rem;
+	text-align: center;
+	color: #a7f3d0;
+	box-shadow: 0 0.08rem 0.15rem rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Shimmer Animation ===== */
+@keyframes shimmer {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+	.cipher-tool-container {
+		padding: 1.5rem;
+		margin: 1.5rem auto;
+	}
+	.operation-buttons {
+		flex-direction: column;
+		gap: 0.8rem;
+	}
+	.operation-button {
+		width: 100%;
+		font-size: 0.9rem;
+		padding: 0.65rem 1.2rem;
+	}
+	.form-section {
+		padding: 1.2rem;
+	}
+	.form-title {
+		font-size: 1.2rem;
+	}
+	.header-title {
+		font-size: 1.6rem;
+	}
+	.header-description {
+		font-size: 0.8rem;
+	}
+	.warning {
+		padding: 0.8rem;
+	}
+}
