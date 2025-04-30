@@ -3,13 +3,15 @@
 	display: flex;
 	background: #1a1d24;
 	border-radius: 0.75rem;
-	overflow: hidden;
+	flex-wrap: wrap;
 	width: 100%;
 }
 
 .password-input {
 	flex: 1;
 	padding: 0.75rem 1rem;
+	overflow: visible;
+	min-width: 0;
 	font-size: 1rem;
 	color: #ccc;
 	background: transparent;
@@ -25,6 +27,7 @@
 .controls {
 	display: flex;
 	align-items: center;
+	border-radius: 0.5rem;
 	gap: 0.5rem;
 	background: #1a1d24;
 	padding: 0 0.75rem;
@@ -55,8 +58,8 @@
 /* === Strength Bar === */
 .strength-bar,
 progress::-webkit-progress-bar {
-	width: 95%;
-	margin: 1rem;
+	width: 100%;
+	margin-top: 1rem;
 	height: 0.5rem;
 	background: #5a5c5d;
 	border-radius: 0.25rem;
@@ -97,5 +100,18 @@ progress::-moz-progress-bar {
 	100% {
 		opacity: 0;
 		transform: translateY(-5px);
+	}
+}
+
+@media (max-width: 640px) {
+	.icon-button {
+		padding: 0.25rem;
+		width: 1.75rem;
+		height: 1.75rem;
+	}
+
+	.icon-button svg {
+		width: 16px;
+		height: 16px;
 	}
 }

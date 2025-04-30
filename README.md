@@ -1,91 +1,104 @@
+# Cipher
+
+<p align="center">
+  <img src="./static/icons/android-chrome-192x192.png" width="192" height="192" alt="Sublime's custom image"/>
+</p>
+
+**Cipher** is a fully client-side file encryption and decryption tool built with **Vite** and **Svelte** in **Typescript**, leveraging the **Web Crypto API** for secure, efficient, and private processing of files entirely in the browser. It supports drag-and-drop or manual selection of multiple files and directories, and includes password-based authentication, progress tracking, metadata embedding, and integrity verification.
+
+---
+
+## Features
+
+- Encrypt and decrypt **multiple files or entire directories**
+- **Client-side only** — no server, no uploads
+- Supports **drag-and-drop** or manual file selection
+- Password-based key derivation using **PBKDF2**
+- **Password generator**, visibility toggle, and weak-password blocking (can be disabled)
+- Embed **password hint** and **file description** (stored unencrypted)
+- Encrypt and store file **name** and **timestamp** for secrecy
+- Display encryption/decryption **progress** and **estimated time remaining**
+- Ensure file integrity with **password-based digital signature**
+- Automatically verify files before decryption; show failures and allow selective removal
+- Fully **offline capable** as a Progressive Web App (PWA)
+
+---
+
+## Encrypted File Structure
+
 ```
 [Version]                    (string, Unencrypted)
 [Salt]                       (16 bytes, Unencrypted) — for PBKDF2
-[Header Nonce]               (12 bytes, Unencrypted) — for AES-GCM encryption of header
+[Header Nonce]               (12 bytes, Unencrypted) — for AES-GCM
 
-// -- User Metadata (Plaintext) --
-[Hint Length]                (2 bytes, Unencrypted)
-[Hint]                       (variable, Unencrypted)
-[Description Length]         (2 bytes, Unencrypted)
-[Description]                (variable, Unencrypted)
+-- User Metadata (Plaintext) --
+[Hint Length]                (2 bytes)
+[Hint]                       (variable)
+[Description Length]         (2 bytes)
+[Description]                (variable)
 
-// -- Encrypted Header Block --
-[Header Ciphertext Length]   (4 bytes, Unencrypted)
-[Encrypted Header Block]     (variable, Encrypted with Header Nonce)
+-- Encrypted Header Block --
+[Header Ciphertext Length]   (4 bytes)
+[Encrypted Header Block]     (variable, AES-GCM Encrypted)
     └── [Filename Length]     (2 bytes)
         [Filename]            (variable)
         [Timestamp Length]    (2 bytes)
         [Timestamp]           (variable)
 
-// -- File Content Info --
-[Total Chunk Count]          (4 or 8 bytes, Unencrypted) — number of encrypted chunks
+-- File Content Info --
+[Total Chunk Count]          (4 or 8 bytes)
 
-// -- File Data Stream (for each chunk) --
-[Chunk Nonce]                (12 bytes, Unencrypted)
-[Chunk Ciphertext Length]    (4 bytes, Unencrypted)
-[Chunk Ciphertext]           (variable, Encrypted with Chunk Nonce)
+-- Chunked Encrypted Data --
+[Chunk Nonce]                (12 bytes per chunk)
+[Chunk Ciphertext Length]    (4 bytes)
+[Chunk Ciphertext]           (variable)
 
-//    Signature
+-- Digital Signature --
 [Signature]
-[Signature Length]           (2 bytes, Unencrypted)
-[Prefix Length]               (2 bytes, Unencrypted)
+[Signature Length]           (2 bytes)
+[Prefix Length]              (2 bytes)
 ```
 
-# Svelte library
+---
 
-Everything you need to build a Svelte library, powered by [`sv`](https://npmjs.com/package/sv).
+## File Verification
 
-Read more about creating a library [in the docs](https://svelte.dev/docs/kit/packaging).
+Before decryption:
+- The app extracts and displays the **password hint** and **description**
+- Each file is **verified using a digital signature**
+- If any file fails verification, the user can choose to:
+  - Remove failed files
+  - Proceed with all files anyway
 
-## Creating a project
+---
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Getting Started (Development)
 
 ```bash
+git clone https://github.com/shashotoNur/cipher.git
+cd cipher
+npm install
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
+---
 
-## Building
-
-To build your library:
-
-```bash
-npm run package
-```
-
-To create a production version of your showcase app:
+## Build for Production
 
 ```bash
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+---
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Deployment
 
-## Publishing
+The app is hosted via **GitHub Pages**: **[Cipher](https://shashotoNur.github.io/cipher)**
 
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
+---
 
-To publish your library to [npm](https://www.npmjs.com):
+## License
 
-```bash
-npm publish
-```
+This project is licensed under the **MIT License**. See [`LICENSE`](./LICENSE) for details.
+
+---

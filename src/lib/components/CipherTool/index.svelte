@@ -262,14 +262,14 @@
 					disabled={notEnoughInputs() || $isLoading}
 					class="action-button verify-button"
 				>
-					{#if $isLoading && !$unverifiedFiles.length}Verifying...{:else}Verify Signature{/if}
+					{#if $isLoading && !$unverifiedFiles.length}Verifying...{:else}Verify{/if}
 				</button>
 				<button
 					on:click={() => handleFileOperation('decrypt')}
 					disabled={notEnoughInputs() || $isLoading || !$verified}
 					class="action-button decrypt-button"
 				>
-					{#if $isLoading}Processing...{:else}Decrypt and Save{/if}
+					{#if $isLoading}Processing...{:else}Decrypt{/if}
 				</button>
 			</div>
 			<Progressbar />

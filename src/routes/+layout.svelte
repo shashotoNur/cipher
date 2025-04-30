@@ -1,4 +1,11 @@
 <script lang="ts">
+	import {
+		defaultCanonicalUrl,
+		defaultDescription,
+		defaultImageUrl,
+		defaultTitle,
+		summary
+	} from '$lib/constants/index.js';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
 
 	const options = {
@@ -13,12 +20,7 @@
 		classes: []
 	};
 
-	const base_url = typeof window !== 'undefined' ? window.location.origin : '';
-	const defaultTitle = 'Cipher';
-	const defaultDescription = 'A privacy-focused file encryption & decryption tool (fully offline)';
-	const defaultImageUrl = `${base_url}/icons/android-chrome-512x512.png`;
-	const defaultCanonicalUrl = base_url;
-	const summary = 'File encryption tool';
+	// export const prerender = true;
 
 	export let data: {
 		title: string;
@@ -70,7 +72,20 @@
 	:global(body) {
 		background: #0e1117;
 		color: #aaaaa8;
-		font-family: 'Inter', sans-serif;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+
+	:global(textarea) {
+		resize: none;
+	}
+
+	:global(::placeholder) {
+		font-family: arial;
+		font-style: italic;
+		font-size: 0.9rem;
+		padding: 5px;
+		line-height: 1;
+		box-sizing: border-box;
 	}
 	:root {
 		--toastContainerTop: 1.5rem;

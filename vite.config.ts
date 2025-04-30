@@ -5,7 +5,11 @@ import { VitePWA } from 'vite-plugin-pwa';
 // https://vitejs.dev/config/
 export default defineConfig({
 	server: {
-		allowedHosts: ['.loca.lt', 'my-local-network', '192.168.1.100']
+		allowedHosts: ['.loca.lt'],
+		port: 3000,
+	},
+	preview: {
+		port: 8080,
 	},
 	plugins: [
 		sveltekit(),
@@ -45,6 +49,24 @@ export default defineConfig({
 						src: '/icons/favicon-32x32.png',
 						sizes: '32x32',
 						type: 'image/png'
+					}
+				]
+			},
+			workbox: {
+				globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+				runtimeCaching: [
+					{
+						urlPattern: ({ request }) => request.destination === 'document',
+						handler: 'NetworkFirst'
+					},
+					{
+						urlPattern: ({ request }) =>
+							['style', 'script', 'worker'].includes(request.destination),
+						handler: 'StaleWhileRevalidate'
+					},
+					{
+						urlPattern: ({ request }) => request.destination === 'image',
+						handler: 'CacheFirst'
 					}
 				]
 			}

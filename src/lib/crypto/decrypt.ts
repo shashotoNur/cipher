@@ -1,4 +1,10 @@
-import { ENCRYPTION_ALGO, NONCE_LENGTH, SALT_LENGTH, VERSION } from '../constants/index.js';
+import {
+	ENCRYPTION_ALGO,
+	NONCE_LENGTH,
+	SALT_LENGTH,
+	STREAMSAVER_MITM_URL,
+	VERSION
+} from '../constants/index.js';
 import { chunksProcessed, originalFileName } from '../stores/appStore.js';
 import { unpackUint16, unpackUint32 } from '../utils/decoder.js';
 import { readFileChunk } from '../utils/reader.js';
@@ -6,6 +12,7 @@ import { deriveKey } from './keygen.js';
 
 export async function decryptFileAndSave(file: File, password: string) {
 	const streamsaver = (await import('streamsaver')).default;
+	streamsaver.mitm = STREAMSAVER_MITM_URL;
 	let fileOffset = VERSION.length;
 
 	const salt = await readFileChunk(file, fileOffset, SALT_LENGTH);
@@ -43,13 +50,11 @@ export async function decryptFileAndSave(file: File, password: string) {
 	const writer = writable.getWriter();
 
 	for (let i = 0; i < chunkCount; i++) {
-		console.log({ fileOffset, i });
 		const chunkNonce = await readFileChunk(file, fileOffset, NONCE_LENGTH);
 		fileOffset += NONCE_LENGTH;
 
 		const chunkLength = unpackUint32(await readFileChunk(file, fileOffset, 4));
 		fileOffset += 4;
-		console.log({ chunkLength });
 
 		const encrypted = await readFileChunk(file, fileOffset, chunkLength);
 		fileOffset += chunkLength;

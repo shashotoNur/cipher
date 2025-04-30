@@ -1,5 +1,5 @@
 import { chunksProcessed } from '$lib/stores/appStore.js';
-import { CHUNK_SIZE, ENCRYPTION_ALGO, VERSION } from '../constants/index.js';
+import { CHUNK_SIZE, ENCRYPTION_ALGO, STREAMSAVER_MITM_URL, VERSION } from '../constants/index.js';
 import type { EncryptionMetadata } from '../types/crypto.js';
 import {
 	encodeUTF8,
@@ -17,6 +17,7 @@ export async function encryptFileAndSave(
 	metadata: EncryptionMetadata
 ) {
 	const streamsaver = (await import('streamsaver')).default;
+	streamsaver.mitm = STREAMSAVER_MITM_URL;
 	const salt = generateSalt();
 	const key = await deriveKey(password, salt);
 	const fileStream = streamsaver.createWriteStream(generateAlphanumericString() + '.cphr');

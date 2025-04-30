@@ -12,6 +12,15 @@ export const MAX_HINT_LENGTH = 100;
 export const MAX_DESC_LENGTH = 300;
 export const MIN_PW_STRENGTH = 7;
 
+export const base_url = typeof window !== 'undefined' ? window.location.origin : '';
+export const defaultTitle = 'Cipher';
+export const defaultDescription =
+	'A privacy-focused file encryption & decryption tool (fully offline)';
+export const defaultImageUrl = `${base_url}/icons/android-chrome-512x512.png`;
+export const defaultCanonicalUrl = base_url;
+export const summary = 'File encryption tool';
+export const STREAMSAVER_MITM_URL = `${base_url}/streamsaver/mitm.html`;
+
 export const DEFAULT_FILES_TO_IGNORE: string[] = [
 	'.DS_Store', // OSX indexing file
 	'Thumbs.db' // Windows indexing file
