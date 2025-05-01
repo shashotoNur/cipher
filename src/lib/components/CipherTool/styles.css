@@ -3,21 +3,22 @@
 	background: #0e1117;
 	border-radius: 0.75rem;
 	padding: 2rem;
-	max-width: 800px;
+	max-width: 600px;
 	margin: 2.5rem auto;
 	color: #aaaaa8;
 	box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.5);
 	transition: all 0.3s ease;
 }
+
 .cipher-tool-container:hover {
-	transform: translateY(-0.3rem);
+	transform: scale(1.01);
 	box-shadow: 0 0.6rem 1.8rem rgba(0, 0, 0, 0.6);
 }
 
 /* ===== Header ===== */
 .header {
 	text-align: center;
-	margin-bottom: 3.5rem;
+	margin: 2rem;
 }
 .header img {
 	margin-bottom: 0.75rem;
@@ -25,8 +26,12 @@
 	height: 96px;
 }
 
+.header img {
+	transition: transform 0.5s ease; /* adjust duration as needed */
+}
+
 .header img:hover {
-	transform: scale(1.02);
+	transform: scale(1.04);
 }
 
 .header-title {
@@ -47,7 +52,9 @@
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	width: 90%;
 	margin-bottom: 2rem;
+	margin-left: 5%;
 	background: #1a1d24;
 	border-radius: 2rem;
 	overflow: hidden;
@@ -146,90 +153,11 @@
 /* Variants */
 .encrypt-button {
 	width: 70%;
-	margin: 7% 15%;
+	margin: 0% 15%;
 	background: #1c1c24;
 }
 .encrypt-button:hover:not(:disabled) {
 	background: #282834;
-}
-
-.button-container {
-	display: flex;
-	justify-content: space-between;
-}
-
-.verify-button,
-.decrypt-button {
-	width: 30%;
-	margin: 7% 10%;
-	padding: 1.2rem 1.8rem;
-	background: #1c1c24;
-}
-.verify-button:hover:not(:disabled),
-.decrypt-button:hover:not(:disabled) {
-	background: #282834;
-}
-
-/* ===== Warning Box ===== */
-.warning {
-	background: #1a1d24;
-	padding: 1.2rem;
-	margin-top: 1.2rem;
-	border-radius: 0.6rem;
-	box-shadow: 0 0.15rem 0.3rem rgba(0, 0, 0, 0.2);
-}
-.warning p {
-	margin: 0 0 0.8rem;
-	font-weight: 600;
-	color: #ffffff;
-	font-size: 1rem;
-}
-.warning-list {
-	padding-left: 0;
-	margin-bottom: 0.8rem;
-	list-style: none;
-}
-.warning-item {
-	display: flex;
-	align-items: center;
-	gap: 0.6rem;
-	font-size: 0.9rem;
-	color: #ffffff;
-}
-
-/* ===== Remove Buttons ===== */
-.remove-btn,
-.remove-all-btn {
-	background: #26292f;
-	color: #ffffff;
-	padding: 0.3rem 0.6rem;
-	font-size: 0.75rem;
-	border: none;
-	border-radius: 0.15rem;
-	margin-top: 0.6rem;
-	box-shadow: 0 0.08rem 0.15rem rgba(0, 0, 0, 0.15);
-	transition:
-		background-color 0.2s ease,
-		transform 0.2s ease;
-}
-.remove-btn:hover:not(:disabled),
-.remove-all-btn:hover:not(:disabled) {
-	background: #555555;
-	cursor: pointer;
-	transform: scale(1.03);
-	box-shadow: 0 0.2rem 0.3rem rgba(0, 0, 0, 0.2);
-}
-
-/* ===== Verification Success Box ===== */
-.verification-success {
-	margin-top: 1.2rem;
-	padding: 0.8rem;
-	background: #1a1d24;
-	border-radius: 0.4rem;
-	font-size: 0.9rem;
-	text-align: center;
-	color: #a7f3d0;
-	box-shadow: 0 0.08rem 0.15rem rgba(0, 0, 0, 0.15);
 }
 
 /* ===== Shimmer Animation ===== */
@@ -253,13 +181,6 @@
 		font-size: 0.9rem;
 		padding: 0.65rem 1.2rem;
 	}
-	.verify-button,
-	.decrypt-button {
-		width: 40%;
-		margin: 10% 0;
-		padding: 1.5rem;
-		background: #1c1c24;
-	}
 	.form-section {
 		padding: 1.2rem;
 	}
@@ -271,8 +192,5 @@
 	}
 	.header-description {
 		font-size: 0.8rem;
-	}
-	.warning {
-		padding: 0.8rem;
 	}
 }

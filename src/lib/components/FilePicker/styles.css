@@ -22,13 +22,13 @@
 
 @property --c0 {
 	syntax: '<color>';
-	initial-value: var(--base-color);
+	initial-value: #0b0e13;
 	inherits: false;
 }
 
 @property --c1 {
 	syntax: '<color>';
-	initial-value: var(--base-color);
+	initial-value: #0b0e13;
 	inherits: false;
 }
 
@@ -64,13 +64,14 @@
 .file-drop-zone {
 	display: flex;
 	flex-direction: column;
+	min-height: 120px;
 	align-items: center;
 	justify-content: center;
 	padding: 2rem;
 	margin-bottom: 2rem;
-	border: 2px dashed #3b3b3b;
-	border-radius: 0.75rem;
-	background-color: #0e1117;
+	border: 4px outset #3b3b3b;
+	border-radius: 125rem;
+	background-color: #0b0e13;
 	color: #cfcfcf;
 	text-align: center;
 	position: relative;
@@ -253,7 +254,6 @@
 
 .remove-file-button:focus-visible {
 	outline: 2px solid #888;
-	outline-offset: 2px;
 }
 
 /* === Responsive Adjustments === */

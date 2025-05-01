@@ -1,7 +1,7 @@
 # Cipher
 
 <p align="center">
-  <img src="./static/icons/android-chrome-192x192.png" width="192" height="192" alt="Sublime's custom image"/>
+  <img src="./static/icons/android-chrome-192x192.png" width="192" height="192" alt="Cipher logo"/>
 </p>
 
 **Cipher** is a fully client-side file encryption and decryption tool built with **Vite** and **Svelte** in **Typescript**, leveraging the **Web Crypto API** for secure, efficient, and private processing of files entirely in the browser. It supports drag-and-drop or manual selection of multiple files and directories, and includes password-based authentication, progress tracking, metadata embedding, and integrity verification.
@@ -64,6 +64,7 @@
 ## File Verification
 
 Before decryption:
+
 - The app extracts and displays the **password hint** and **description**
 - Each file is **verified using a digital signature**
 - If any file fails verification, the user can choose to:

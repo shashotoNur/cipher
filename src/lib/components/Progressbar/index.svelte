@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { chunksProcessed, totalChunks, timestamp } from '$lib/stores/appStore.js';
+	import { chunksProcessed, timestamp, totalChunks } from '$lib/stores/appStore.js';
 	import { onDestroy } from 'svelte';
 
 	let currentTime = Date.now();
@@ -58,9 +58,7 @@
 	$: {
 		if (isVisible && !intervalId) {
 			currentTime = Date.now();
-			intervalId = setInterval(() => {
-				currentTime = Date.now();
-			}, 1000);
+			intervalId = setInterval(() => (currentTime = Date.now()), 1000);
 		} else if (!isVisible && intervalId) {
 			clearInterval(intervalId);
 			intervalId = null;

@@ -12,11 +12,15 @@ export const MAX_HINT_LENGTH = 100;
 export const MAX_DESC_LENGTH = 300;
 export const MIN_PW_STRENGTH = 7;
 
-export const base_url = typeof window !== 'undefined' ? window.location.origin : '';
+const devEnv = process.env.NODE_ENV === 'development';
+
+export const base_url =
+	(typeof window !== 'undefined' ? window.location.origin : '') + (devEnv ? '' : '/cipher');
 export const defaultTitle = 'Cipher';
 export const defaultDescription =
 	'A privacy-focused file encryption & decryption tool (fully offline)';
 export const defaultImageUrl = `${base_url}/icons/android-chrome-512x512.png`;
+export const manifestUrl = `${base_url}/manifest.json`;
 export const defaultCanonicalUrl = base_url;
 export const summary = 'File encryption tool';
 export const STREAMSAVER_MITM_URL = `${base_url}/streamsaver/mitm.html`;

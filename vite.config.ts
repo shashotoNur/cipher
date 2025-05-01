@@ -6,16 +6,16 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig({
 	server: {
 		allowedHosts: ['.loca.lt'],
-		port: 3000,
+		port: 3000
 	},
 	preview: {
-		port: 8080,
+		port: 8080
 	},
 	plugins: [
 		sveltekit(),
 		VitePWA({
 			registerType: 'autoUpdate',
-			includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'], // Optional:  Assets to include
+			includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
 			manifest: {
 				name: 'Cipher',
 				short_name: 'Cipher',

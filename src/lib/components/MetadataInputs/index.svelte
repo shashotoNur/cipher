@@ -16,6 +16,8 @@
 	<input
 		class="text-input"
 		type="text"
+		name="password-hint"
+		id="password-hint"
 		bind:value={$passwordHint}
 		maxlength={MAX_HINT_LENGTH}
 		placeholder="Something only you would understand"
@@ -31,6 +33,8 @@
 	</label>
 	<textarea
 		class="text-input"
+		name="file-description"
+		id="file-description"
 		bind:value={$description}
 		maxlength={MAX_DESC_LENGTH}
 		placeholder="Notes, tags or vague identifiers"

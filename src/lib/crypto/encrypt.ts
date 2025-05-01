@@ -8,8 +8,8 @@ import {
 	packUint32,
 	packUint64
 } from '../utils/encoder.js';
-import { signData } from '../utils/sign.js';
 import { deriveKey, generateNonce, generateSalt } from './keygen.js';
+import { signData } from './sign.js';
 
 export async function encryptFileAndSave(
 	file: File,

@@ -6,6 +6,7 @@ export const version = writable('');
 export const selectedFiles = writable<SelectedFile[]>([]);
 export const timestamp = writable(0);
 
+export const proposedPassword = writable('');
 export const password = writable('');
 export const passwordStrength = writable(0);
 
@@ -24,6 +25,7 @@ export const resetAppState = () => {
 	version.set('');
 	selectedFiles.set([]);
 	timestamp.set(0);
+	proposedPassword.set('');
 	password.set('');
 	passwordStrength.set(0);
 	passwordHint.set('');

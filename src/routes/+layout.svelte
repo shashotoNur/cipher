@@ -4,7 +4,8 @@
 		defaultDescription,
 		defaultImageUrl,
 		defaultTitle,
-		summary
+		summary,
+		manifestUrl
 	} from '$lib/constants/index.js';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
 
@@ -39,6 +40,7 @@
 
 <svelte:head>
 	<title>{title}</title>
+	<meta name="title" content={title} />
 
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="manifest" href="/manifest.json" />
@@ -47,6 +49,7 @@
 	<meta name="keywords" content="encryption, cryptography, security, offline" />
 	<link rel="canonical" href={canonicalUrl} />
 
+	<meta property="og:type" content="website" />
 	<meta property="og:url" content={canonicalUrl} />
 	<meta property="og:image" content={imageUrl} />
 	<meta property="og:description" content={description} />
@@ -63,16 +66,24 @@
 	<meta name="twitter:title" content={title} />
 	<meta name="twitter:description" content={description} />
 	<meta name="twitter:image" content={imageUrl} />
+
+	<link rel="apple-touch-icon" href={imageUrl} />
+	<link rel="manifest" href={manifestUrl} />
 </svelte:head>
 
 <SvelteToast {options} />
 <slot />
 
 <style>
+	@font-face {
+		font-family: 'Rubik';
+		src: url('/Rubik-Italic.ttf') format('truetype');
+	}
+
 	:global(body) {
-		background: #0e1117;
+		background: #06080a;
 		color: #aaaaa8;
-		font-family: Arial, Helvetica, sans-serif;
+		font-family: 'Rubik', sans-serif;
 	}
 
 	:global(textarea) {
@@ -80,8 +91,7 @@
 	}
 
 	:global(::placeholder) {
-		font-family: arial;
-		font-style: italic;
+		font-family: 'Rubik';
 		font-size: 0.9rem;
 		padding: 5px;
 		line-height: 1;

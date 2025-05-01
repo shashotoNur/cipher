@@ -10,9 +10,9 @@ import {
 } from '$lib/constants/index.js';
 import { deriveKey } from '$lib/crypto/keygen.js';
 import { fileTimestamp } from '$lib/stores/appStore.js';
-import { unpackUint16, unpackUint32, unpackUint64 } from './decoder.js';
-import { encodeUTF8 } from './encoder.js';
-import { readFileChunk } from './reader.js';
+import { unpackUint16, unpackUint32, unpackUint64 } from '../utils/decoder.js';
+import { encodeUTF8 } from '../utils/encoder.js';
+import { readFileChunk } from '../utils/reader.js';
 
 export async function signData(
 	data: Uint8Array,

@@ -12,8 +12,9 @@
 	}
 
 	let isFileListExpanded = writable(false);
+	const initialDropZoneText = 'Click or drop files / directories here...';
 	const dropZoneClass = writable('file-drop-zone');
-	const dropZoneText = writable('Select Files');
+	const dropZoneText = writable(initialDropZoneText);
 
 	function toggleFileList() {
 		isFileListExpanded.update((value) => !value);
@@ -53,7 +54,7 @@
 		event.preventDefault();
 
 		dropZoneClass.set('file-drop-zone');
-		dropZoneText.set('Select Files');
+		dropZoneText.set(initialDropZoneText);
 		handleFileChange(event);
 	}
 
@@ -72,7 +73,7 @@
 	function handleDragLeave(event: DragEvent) {
 		event.preventDefault();
 		dropZoneClass.set('file-drop-zone');
-		dropZoneText.set('Select Files');
+		dropZoneText.set(initialDropZoneText);
 	}
 
 	function handleKeyDown(event: KeyboardEvent) {
