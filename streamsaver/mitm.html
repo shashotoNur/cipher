@@ -66,7 +66,7 @@
 											sw = swReg.active;
 											resolve();
 										}
-									})
+									}),
 								);
 							})
 						);
@@ -105,7 +105,7 @@
 				/** @since v2.0.0 */
 				if (!data.headers) {
 					console.warn(
-						"[StreamSaver] pass `data.headers` that you would like to pass along to the service worker\nit should be a 2D array or a key/val object that fetch's Headers api accepts"
+						"[StreamSaver] pass `data.headers` that you would like to pass along to the service worker\nit should be a 2D array or a key/val object that fetch's Headers api accepts",
 					);
 				} else {
 					// test if it's correct
@@ -116,7 +116,7 @@
 				/** @since v2.0.0 */
 				if (typeof data.filename === 'string') {
 					console.warn(
-						"[StreamSaver] You shouldn't send `data.filename` anymore. It should be included in the Content-Disposition header option"
+						"[StreamSaver] You shouldn't send `data.filename` anymore. It should be included in the Content-Disposition header option",
 					);
 					// Do what File constructor do with fileNames
 					data.filename = data.filename.replace(/\//g, ':');
@@ -125,14 +125,14 @@
 				/** @since v2.0.0 */
 				if (data.size) {
 					console.warn(
-						"[StreamSaver] You shouldn't send `data.size` anymore. It should be included in the content-length header option"
+						"[StreamSaver] You shouldn't send `data.size` anymore. It should be included in the content-length header option",
 					);
 				}
 
 				/** @since v2.0.0 */
 				if (data.readableStream) {
 					console.warn(
-						'[StreamSaver] You should send the readableStream in the messageChannel, not throught mitm'
+						'[StreamSaver] You should send the readableStream in the messageChannel, not throught mitm',
 					);
 				}
 

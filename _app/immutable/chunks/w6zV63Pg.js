@@ -1,2 +1,0 @@
-import{N as d,O as g,Q as c,R as i,u as m,T as b,j as p,V as v,f as h,W as k}from"./D7osvdP_.js";function x(n=!1){const s=d,e=s.l.u;if(!e)return;let o=()=>v(s.s);if(n){let a=0,t={};const _=h(()=>{let l=!1;const r=s.s;for(const f in r)r[f]!==t[f]&&(t[f]=r[f],l=!0);return l&&a++,a});o=()=>p(_)}e.b.length&&g(()=>{u(s,o),i(e.b)}),c(()=>{const a=m(()=>e.m.map(b));return()=>{for(const t of a)typeof t=="function"&&t()}}),e.a.length&&c(()=>{u(s,o),i(e.a)})}function u(n,s){if(n.l.s)for(const e of n.l.s)p(e);s()}k();export{x as i};
-//# sourceMappingURL=w6zV63Pg.js.map
