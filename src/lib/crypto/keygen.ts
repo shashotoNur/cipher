@@ -4,7 +4,7 @@ import {
 	KEY_LENGTH,
 	NONCE_LENGTH,
 	PBKDF2_ITERATIONS,
-	SALT_LENGTH
+	SALT_LENGTH,
 } from '../constants/index.js';
 
 export function generateSalt(): Uint8Array {
@@ -22,7 +22,7 @@ export async function deriveKey(password: string, salt: Uint8Array): Promise<Cry
 		encoder.encode(password),
 		{ name: KEY_ALGORITHM },
 		false,
-		['deriveKey']
+		['deriveKey'],
 	);
 
 	const derivedKey = await crypto.subtle.deriveKey(
@@ -30,15 +30,15 @@ export async function deriveKey(password: string, salt: Uint8Array): Promise<Cry
 			name: KEY_ALGORITHM,
 			salt: salt,
 			iterations: PBKDF2_ITERATIONS,
-			hash: 'SHA-256'
+			hash: 'SHA-256',
 		},
 		passwordKey,
 		{
 			name: ENCRYPTION_ALGO,
-			length: KEY_LENGTH
+			length: KEY_LENGTH,
 		},
 		false,
-		['encrypt', 'decrypt']
+		['encrypt', 'decrypt'],
 	);
 
 	return derivedKey;

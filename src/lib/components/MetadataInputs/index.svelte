@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { MAX_DESC_LENGTH, MAX_HINT_LENGTH } from '../../constants/index.js';
-	import { description, passwordHint } from '../../stores/appStore.js';
+	import { MAX_DESC_LENGTH, MAX_HINT_LENGTH } from '$lib/constants/index.js';
+	import { description, passwordHint } from '$lib/stores/appStore.js';
 
 	let hintFocused = false;
 	let descFocused = false;
@@ -20,7 +20,7 @@
 		id="password-hint"
 		bind:value={$passwordHint}
 		maxlength={MAX_HINT_LENGTH}
-		placeholder="Something only you would understand"
+		placeholder="Something only you would understand..."
 		on:focus={() => (hintFocused = true)}
 		on:blur={() => (hintFocused = false)}
 	/>
@@ -37,7 +37,7 @@
 		id="file-description"
 		bind:value={$description}
 		maxlength={MAX_DESC_LENGTH}
-		placeholder="Notes, tags or vague identifiers"
+		placeholder="Notes, tags or vague identifiers."
 		rows="3"
 		on:focus={() => (descFocused = true)}
 		on:blur={() => (descFocused = false)}

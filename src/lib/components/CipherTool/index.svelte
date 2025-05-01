@@ -4,13 +4,13 @@
 		CHUNK_SIZE,
 		NONCE_LENGTH,
 		SALT_LENGTH,
-		VERSION
+		VERSION,
 	} from '$lib/constants/index.js';
+	import { encryptFileAndSave } from '$lib/crypto/encrypt.js';
 	import { decodeUTF8, unpackUint16 } from '$lib/utils/decoder.js';
 	import { readFileChunk } from '$lib/utils/reader.js';
 	import { toast } from '@zerodevx/svelte-toast';
 	import { onMount } from 'svelte';
-	import { encryptFileAndSave } from '../../crypto/encrypt.js';
 	import {
 		activeTab,
 		chunksProcessed,
@@ -23,15 +23,15 @@
 		selectedFiles,
 		timestamp,
 		totalChunks,
-		version
-	} from '../../stores/appStore.js';
+		version,
+	} from '$lib/stores/appStore.js';
 	import {
 		DecryptSection,
 		FilePicker,
 		MetadataInputs,
 		PasswordInput,
-		Progressbar
-	} from '../index.js';
+		Progressbar,
+	} from '$lib/components/index.js';
 
 	const [encryptTab, decryptTab] = ['encrypt', 'decrypt'];
 
@@ -67,7 +67,7 @@
 					description: $description,
 					originalName: $originalFileName || file.name,
 					timestamp: $timestamp,
-					version: VERSION
+					version: VERSION,
 				});
 
 			toast.push('All files encrypted successfully.');

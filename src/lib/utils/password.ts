@@ -27,7 +27,7 @@ export function generateStrongPassword(length: number = 16): string {
 		lower: 'abcdefghijklmnopqrstuvwxyz',
 		upper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
 		digits: '0123456789',
-		symbols: '!@#$%^&*()-_=+[]{}|;:,.<>?/`~'
+		symbols: '!@#$%^&*()-_=+[]{ }|;:,.<>?/`~',
 	};
 
 	const allChars = charset.lower + charset.upper + charset.digits + charset.symbols;
@@ -35,15 +35,14 @@ export function generateStrongPassword(length: number = 16): string {
 		randomChar(charset.lower),
 		randomChar(charset.upper),
 		randomChar(charset.digits),
-		randomChar(charset.symbols)
+		randomChar(charset.symbols),
 	];
 
 	const remainingLength = length - required.length;
 	const passwordArray = required.concat(
-		Array.from({ length: remainingLength }, () => randomChar(allChars))
+		Array.from({ length: remainingLength }, () => randomChar(allChars)),
 	);
 
-	// Shuffle the password
 	return shuffle(passwordArray).join('');
 }
 

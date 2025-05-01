@@ -6,7 +6,7 @@ import {
 	generateAlphanumericString,
 	packUint16,
 	packUint32,
-	packUint64
+	packUint64,
 } from '../utils/encoder.js';
 import { deriveKey, generateNonce, generateSalt } from './keygen.js';
 import { signData } from './sign.js';
@@ -14,7 +14,7 @@ import { signData } from './sign.js';
 export async function encryptFileAndSave(
 	file: File,
 	password: string,
-	metadata: EncryptionMetadata
+	metadata: EncryptionMetadata,
 ) {
 	const streamsaver = (await import('streamsaver')).default;
 	streamsaver.mitm = STREAMSAVER_MITM_URL;
@@ -34,12 +34,12 @@ export async function encryptFileAndSave(
 		...packUint16(nameBytes.length),
 		...nameBytes,
 		...packUint16(timeBytes.length),
-		...timeBytes
+		...timeBytes,
 	]);
 
 	const headerNonce = generateNonce();
 	const encryptedHeader = new Uint8Array(
-		await crypto.subtle.encrypt({ name: ENCRYPTION_ALGO, iv: headerNonce }, key, headerData)
+		await crypto.subtle.encrypt({ name: ENCRYPTION_ALGO, iv: headerNonce }, key, headerData),
 	);
 
 	const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
@@ -54,7 +54,7 @@ export async function encryptFileAndSave(
 		...descBytes,
 		...packUint32(encryptedHeader.length),
 		...encryptedHeader,
-		...packUint32(totalChunks)
+		...packUint32(totalChunks),
 	]);
 
 	await writer.write(prefixBuffer);
@@ -66,7 +66,7 @@ export async function encryptFileAndSave(
 
 		const chunkNonce = generateNonce();
 		const encryptedChunk = new Uint8Array(
-			await crypto.subtle.encrypt({ name: ENCRYPTION_ALGO, iv: chunkNonce }, key, chunkData)
+			await crypto.subtle.encrypt({ name: ENCRYPTION_ALGO, iv: chunkNonce }, key, chunkData),
 		);
 
 		await writer.write(chunkNonce);

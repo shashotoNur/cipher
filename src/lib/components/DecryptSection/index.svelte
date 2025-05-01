@@ -1,21 +1,26 @@
 <script lang="ts">
+	import {
+		FilePicker,
+		MetadataDisplay,
+		PasswordInput,
+		Progressbar,
+	} from '$lib/components/index.js';
+	import { VERSION } from '$lib/constants/index.js';
+	import { decryptFileAndSave } from '$lib/crypto/decrypt.js';
+	import { verifyUnencryptedData } from '$lib/crypto/sign.js';
 	import type { SelectedFile } from '$lib/types/components.js';
+	import { decodeUTF8 } from '$lib/utils/decoder.js';
+	import { readFileChunk } from '$lib/utils/reader.js';
 	import { toast } from '@zerodevx/svelte-toast';
 	import { writable } from 'svelte/store';
-	import { decryptFileAndSave } from '../../crypto/decrypt.js';
 	import {
 		isLoading,
 		password,
 		resetAppState,
 		selectedFiles,
 		timestamp,
-		version
+		version,
 	} from '../../stores/appStore.js';
-	import { verifyUnencryptedData } from '../../crypto/sign.js';
-	import { FilePicker, MetadataDisplay, PasswordInput, Progressbar } from '../index.js';
-	import { decodeUTF8 } from '$lib/utils/decoder.js';
-	import { readFileChunk } from '$lib/utils/reader.js';
-	import { VERSION } from '$lib/constants/index.js';
 
 	const unverifiedFiles = writable<SelectedFile[]>([]);
 	const checkedVerification = writable(false);
@@ -81,7 +86,6 @@
 				.map((result) => result.file);
 
 			unverifiedFiles.set([...filesWithoutVersion, ...failedVerification]);
-			console.log($unverifiedFiles);
 
 			if (filesWithoutVersion.length > 0 && failedVerification.length > 0)
 				toast.push('Some files are missing version info and some failed verification!');

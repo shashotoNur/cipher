@@ -1,7 +1,7 @@
 export async function readFileChunk(
 	file: File,
 	start: number,
-	length: number
+	length: number,
 ): Promise<Uint8Array> {
 	try {
 		if (!(file instanceof File)) {

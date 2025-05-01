@@ -7,15 +7,15 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: {
 		adapter: adapter({
-			fallback: 'index.html'
+			fallback: 'index.html',
 		}),
 		prerender: {
-			entries: []
+			entries: [],
 		},
 		paths: {
-			base: devEnv ? '' : '/cipher'
-		}
-	}
+			base: devEnv ? '' : '/cipher',
+		},
+	},
 };
 
 export default config;

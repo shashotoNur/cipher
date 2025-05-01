@@ -11,13 +11,13 @@ export function packUint16(val: number): Uint8Array {
 export function packUint32(num: number) {
 	const arr = new Uint8Array(4);
 	const view = new DataView(arr.buffer);
-	view.setUint32(0, num, true); // true for little-endian
+	view.setUint32(0, num, true);
 	return arr;
 }
 
 export function packUint64(value: number): Uint8Array {
 	const view = new DataView(new ArrayBuffer(8));
-	view.setBigUint64(0, BigInt(value), true); // little-endian
+	view.setBigUint64(0, BigInt(value), true);
 	return new Uint8Array(view.buffer);
 }
 

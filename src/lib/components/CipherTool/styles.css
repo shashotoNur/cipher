@@ -27,7 +27,7 @@
 }
 
 .header img {
-	transition: transform 0.5s ease; /* adjust duration as needed */
+	transition: transform 0.5s ease;
 }
 
 .header img:hover {

@@ -12,7 +12,7 @@ export function formatTimestamp(timestamp: number): string {
 		hour: 'numeric', // e.g., 10
 		minute: '2-digit', // e.g., 05
 		// second: '2-digit', // Optional: uncomment to include seconds
-		hour12: true // Use AM/PM format (set to false for 24-hour)
+		hour12: true, // Use AM/PM format (set to false for 24-hour)
 	};
 
 	try {

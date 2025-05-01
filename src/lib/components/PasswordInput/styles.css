@@ -17,7 +17,10 @@
 	overflow: visible;
 	min-width: 0;
 	font-size: 1rem;
-	font-family: 'Rubik';
+	font-family:
+		'Rubik',
+		Century Gothic,
+		sans-serif;
 	color: #ccc;
 	background: transparent;
 	border: none;

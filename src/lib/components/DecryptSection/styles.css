@@ -71,7 +71,6 @@
 .decrypt-button {
 	width: 30%;
 	margin: 5% 10%;
-	/* padding: 1.2rem 1.8rem; */
 	background: #1c1c24;
 }
 .verify-button:hover:not(:disabled),

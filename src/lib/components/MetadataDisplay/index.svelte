@@ -1,7 +1,7 @@
 <script lang="ts">
+	import { description, fileTimestamp, passwordHint, version } from '$lib/stores/appStore.js';
 	import { formatTimestamp } from '$lib/utils/date.js';
 	import { derived } from 'svelte/store';
-	import { description, passwordHint, fileTimestamp, version } from '../../stores/appStore.js';
 
 	const hint = derived(passwordHint, ($hint) => $hint.trim());
 	const desc = derived(description, ($desc) => $desc.trim());

@@ -27,7 +27,7 @@ export const STREAMSAVER_MITM_URL = `${base_url}/streamsaver/mitm.html`;
 
 export const DEFAULT_FILES_TO_IGNORE: string[] = [
 	'.DS_Store', // OSX indexing file
-	'Thumbs.db' // Windows indexing file
+	'Thumbs.db', // Windows indexing file
 ];
 
 export const EXTENSION_TO_MIME_TYPE_MAP: Record<string, string> = {
@@ -42,5 +42,5 @@ export const EXTENSION_TO_MIME_TYPE_MAP: Record<string, string> = {
 	pdf: 'application/pdf',
 	png: 'image/png',
 	zip: 'application/zip',
-	cphr: 'encrypted/octet-stream'
+	cphr: 'encrypted/octet-stream',
 };

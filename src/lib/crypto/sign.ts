@@ -6,7 +6,7 @@ import {
 	NONCE_LENGTH,
 	PBKDF2_ITERATIONS,
 	SALT_LENGTH,
-	VERSION
+	VERSION,
 } from '$lib/constants/index.js';
 import { deriveKey } from '$lib/crypto/keygen.js';
 import { fileTimestamp } from '$lib/stores/appStore.js';
@@ -17,7 +17,7 @@ import { readFileChunk } from '../utils/reader.js';
 export async function signData(
 	data: Uint8Array,
 	password: string,
-	salt: Uint8Array
+	salt: Uint8Array,
 ): Promise<Uint8Array> {
 	const encoder = new TextEncoder();
 	const passwordKey = await crypto.subtle.importKey(
@@ -25,7 +25,7 @@ export async function signData(
 		encoder.encode(password),
 		{ name: KEY_ALGORITHM },
 		false,
-		['deriveKey']
+		['deriveKey'],
 	);
 
 	const key = await crypto.subtle.deriveKey(
@@ -33,12 +33,12 @@ export async function signData(
 			name: KEY_ALGORITHM,
 			salt,
 			iterations: PBKDF2_ITERATIONS,
-			hash: HASH_ALGORITHM
+			hash: HASH_ALGORITHM,
 		},
 		passwordKey,
 		{ name: AUTH_ALGORITHM, hash: HASH_ALGORITHM },
 		false,
-		['sign', 'verify']
+		['sign', 'verify'],
 	);
 
 	const signature = await crypto.subtle.sign(AUTH_ALGORITHM, key, data);
@@ -65,7 +65,7 @@ export async function verifyUnencryptedData(file: File, password: string): Promi
 		encodeUTF8(password),
 		{ name: KEY_ALGORITHM },
 		false,
-		['deriveKey']
+		['deriveKey'],
 	);
 
 	const key = await crypto.subtle.deriveKey(
@@ -73,12 +73,12 @@ export async function verifyUnencryptedData(file: File, password: string): Promi
 			name: KEY_ALGORITHM,
 			salt,
 			iterations: PBKDF2_ITERATIONS,
-			hash: HASH_ALGORITHM
+			hash: HASH_ALGORITHM,
 		},
 		passwordKey,
 		{ name: AUTH_ALGORITHM, hash: HASH_ALGORITHM },
 		false,
-		['sign', 'verify']
+		['sign', 'verify'],
 	);
 
 	const signatureValid = await crypto.subtle.verify(AUTH_ALGORITHM, key, signature, prefix);
@@ -101,8 +101,8 @@ export async function verifyUnencryptedData(file: File, password: string): Promi
 		await crypto.subtle.decrypt(
 			{ name: ENCRYPTION_ALGO, iv: headerNonce },
 			await deriveKey(password, salt),
-			encHeader
-		)
+			encHeader,
+		),
 	);
 
 	let headerOffset = 0;

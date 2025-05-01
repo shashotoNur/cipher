@@ -31,8 +31,8 @@
 					name: newFile.name,
 					size: formatFileSize(newFile.size),
 					type: newFile.type,
-					object: newFile.fileObject
-				}
+					object: newFile.fileObject,
+				},
 			];
 		});
 	}

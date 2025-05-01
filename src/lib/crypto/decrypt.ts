@@ -3,7 +3,7 @@ import {
 	NONCE_LENGTH,
 	SALT_LENGTH,
 	STREAMSAVER_MITM_URL,
-	VERSION
+	VERSION,
 } from '../constants/index.js';
 import { chunksProcessed, originalFileName } from '../stores/appStore.js';
 import { unpackUint16, unpackUint32 } from '../utils/decoder.js';
@@ -32,7 +32,7 @@ export async function decryptFileAndSave(file: File, password: string) {
 
 	const key = await deriveKey(password, salt);
 	const headerPlain = new Uint8Array(
-		await crypto.subtle.decrypt({ name: ENCRYPTION_ALGO, iv: headerNonce }, key, encHeader)
+		await crypto.subtle.decrypt({ name: ENCRYPTION_ALGO, iv: headerNonce }, key, encHeader),
 	);
 
 	let headerOffset = 0;
@@ -60,7 +60,7 @@ export async function decryptFileAndSave(file: File, password: string) {
 		fileOffset += chunkLength;
 
 		const decrypted = new Uint8Array(
-			await crypto.subtle.decrypt({ name: ENCRYPTION_ALGO, iv: chunkNonce }, key, encrypted)
+			await crypto.subtle.decrypt({ name: ENCRYPTION_ALGO, iv: chunkNonce }, key, encrypted),
 		);
 
 		await writer.write(decrypted);

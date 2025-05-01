@@ -66,7 +66,7 @@ function packageFile(file: File, entry?: FileSystemEntry): ProcessedFile {
 		name: file.name,
 		size: file.size,
 		type: file.type ? file.type : fileTypeOverride,
-		webkitRelativePath: file.webkitRelativePath
+		webkitRelativePath: file.webkitRelativePath,
 	};
 }
 
@@ -80,7 +80,7 @@ function getFile(entry: FileSystemEntry): Promise<ProcessedFile> {
 
 function handleFilePromises(
 	promises: Promise<ProcessedFile>[],
-	fileList: ProcessedFile[]
+	fileList: ProcessedFile[],
 ): Promise<ProcessedFile[]> {
 	return Promise.all(promises).then((files) => {
 		files.forEach((file) => {
@@ -131,7 +131,7 @@ async function getDataTransferFiles(dataTransfer: DataTransfer): Promise<Process
 }
 
 export async function getDroppedOrSelectedFiles(
-	event: DragEvent | Event
+	event: DragEvent | Event,
 ): Promise<ProcessedFile[]> {
 	if (event instanceof DragEvent && event.dataTransfer) {
 		return getDataTransferFiles(event.dataTransfer);

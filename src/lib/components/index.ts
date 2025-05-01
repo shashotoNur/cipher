@@ -13,5 +13,5 @@ export {
 	MetadataDisplay,
 	MetadataInputs,
 	PasswordInput,
-	Progressbar
+	Progressbar,
 };

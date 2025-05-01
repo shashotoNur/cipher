@@ -1,10 +1,31 @@
 # Cipher
 
 <p align="center">
-  <img src="./static/icons/android-chrome-192x192.png" width="192" height="192" alt="Cipher logo"/>
+  <a href="https://shashotoNur.github.io/cipher" target="_blank">
+    <img src="./static/icons/android-chrome-192x192.png" width="192" height="192" alt="Cipher logo"/>
+  </a>
 </p>
 
 **Cipher** is a fully client-side file encryption and decryption tool built with **Vite** and **Svelte** in **Typescript**, leveraging the **Web Crypto API** for secure, efficient, and private processing of files entirely in the browser. It supports drag-and-drop or manual selection of multiple files and directories, and includes password-based authentication, progress tracking, metadata embedding, and integrity verification.
+
+---
+
+## Table of Contents
+
+- [Motivation](#motivation)
+- [Features](#features)
+- [Encrypted File Structure](#encrypted-file-structure)
+- [File Verification](#file-verification)
+- [Getting Started (Development)](#getting-started-development)
+- [Build for Production](#build-for-production)
+- [Deployment](#deployment)
+- [License](#license)
+
+---
+
+## Motivation
+
+**Cipher** was created to give users full control over their sensitive data—**without ever uploading it**. It was designed to be **private by default**, run entirely in the browser, and empower users with strong cryptographic protections without requiring technical expertise.
 
 ---
 

@@ -4,8 +4,8 @@
 		defaultDescription,
 		defaultImageUrl,
 		defaultTitle,
+		manifestUrl,
 		summary,
-		manifestUrl
 	} from '$lib/constants/index.js';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
 
@@ -18,10 +18,8 @@
 		reversed: false,
 		intro: { x: 256 },
 		theme: {},
-		classes: []
+		classes: [],
 	};
-
-	// export const prerender = true;
 
 	export let data: {
 		title: string;
@@ -39,7 +37,7 @@
 </script>
 
 <svelte:head>
-	<title>{title}</title>
+	<!-- <title>{title}</title>
 	<meta name="title" content={title} />
 
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -68,7 +66,7 @@
 	<meta name="twitter:image" content={imageUrl} />
 
 	<link rel="apple-touch-icon" href={imageUrl} />
-	<link rel="manifest" href={manifestUrl} />
+	<link rel="manifest" href={manifestUrl} /> -->
 </svelte:head>
 
 <SvelteToast {options} />
@@ -76,8 +74,12 @@
 
 <style>
 	@font-face {
-		font-family: 'Rubik';
+		font-family:
+			'Rubik',
+			Century Gothic,
+			sans-serif;
 		src: url('/Rubik-Italic.ttf') format('truetype');
+		font-display: swap;
 	}
 
 	:global(body) {
@@ -91,7 +93,10 @@
 	}
 
 	:global(::placeholder) {
-		font-family: 'Rubik';
+		font-family:
+			'Rubik',
+			Century Gothic,
+			sans-serif;
 		font-size: 0.9rem;
 		padding: 5px;
 		line-height: 1;

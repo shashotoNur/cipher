@@ -15,8 +15,8 @@
 .progress-bar {
 	height: 100%;
 	background: linear-gradient(90deg, #1a1d24, #0b0e13);
-	background-size: 200% 100%;
 	background-position: left center;
+	background-size: 200% 100%;
 	transition:
 		width 0.4s ease-in-out,
 		background-position 0.4s ease-in-out;

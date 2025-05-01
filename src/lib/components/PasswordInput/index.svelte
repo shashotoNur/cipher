@@ -9,14 +9,17 @@
 	let passwordInput: HTMLInputElement;
 
 	$: passwordStrength.set(scorePasswordStrength($proposedPassword));
+
 	$: if ($passwordStrength >= MIN_PW_STRENGTH || allowWeakPassword) password.set($proposedPassword);
 	else password.set('');
 
 	async function generateAndFillPassword() {
 		const pwd = generateStrongPassword();
+
 		proposedPassword.set(pwd);
 		passwordStrength.set(scorePasswordStrength(pwd));
 		await navigator.clipboard.writeText(pwd);
+
 		toast.push('Password has been copied to clipboard!');
 	}
 </script>
